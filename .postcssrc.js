@@ -1,5 +1,12 @@
 module.exports = {
   plugins: {
-    autoprefixer: {}
+    autoprefixer: {
+      add: true,
+      browsers: [
+        '> 1%',
+        'last 2 versions',
+        'not ie <= 9'
+      ]
+    }
   }
 }

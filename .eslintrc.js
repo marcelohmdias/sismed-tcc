@@ -1,17 +1,25 @@
+const isProd = process.env.NODE_ENV === 'production'
+
 module.exports = {
   root: true,
   env: {
+    browser: true,
     node: true
   },
-  'extends': [
+  extends: [
+    'prettier',
+    'prettier/standard',
     'plugin:vue/essential',
     '@vue/standard'
   ],
+  plugins: [ 'prettier' ],
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'generator-star-spacing': 'off',
+    'no-console': isProd ? 'error' : 'off',
+    'no-debugger': isProd ? 'error' : 'off'
   },
   parserOptions: {
-    parser: 'babel-eslint'
+    parser: 'babel-eslint',
+    sourceType: 'module'
   }
 }
