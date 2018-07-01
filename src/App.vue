@@ -1,26 +1,36 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+  <v-app>
+    <vue-progress-bar />
+    <app-notify />
     <router-view/>
-  </div>
+  </v-app>
 </template>
 
-<style lang="stylus">
-#app
-  font-family 'Avenir', Helvetica, Arial, sans-serif
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  text-align center
-  color #2c3e50
+<script>
+import AppNotify from '@/components/Notify.vue'
 
-#nav
-  padding 30px
-  a
-    font-weight bold
-    color #2c3e50
-    &.router-link-exact-active
-      color #42b983
+import { afterEach, beforeEach } from './router/event'
+
+import '@mdi/font/css/materialdesignicons.min.css'
+
+export default {
+  name: 'SismedApp',
+  components: { AppNotify },
+  created () {
+    this.$Progress.start()
+    this.$router.beforeEach(beforeEach.bind(this))
+    this.$router.afterEach(afterEach.bind(this))
+  },
+  mounted () {
+    this.$Progress.finish()
+  }
+}
+</script>
+
+<style lang="stylus">
+@import '~vuetify/src/stylus/main';
+
+.application
+  font-family 'Ubuntu', sans-serif
+  line-height 1.5
 </style>
