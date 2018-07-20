@@ -1,0 +1,40 @@
+{
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase serve --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "@mdi/font": "^2.5.94",
+    "babel-polyfill": "^6.26.0",
+    "dayjs": "^1.7.4",
+    "enum": "^2.5.0",
+    "final-form": "^4.8.3",
+    "firebase": "^5.3.0",
+    "firebase-admin": "~5.12.1",
+    "firebase-functions": "^1.0.3",
+    "lodash": "^4.17.10",
+    "register-service-worker": "^1.4.1",
+    "vue": "^2.5.16",
+    "vue-final-form": "^3.0.0",
+    "vue-head": "^2.0.12",
+    "vue-i18n": "^8.0.0",
+    "vue-progressbar": "^0.7.5",
+    "vue-router": "^3.0.1",
+    "vue-snotify": "^3.2.0",
+    "vuelidate": "^0.7.4",
+    "vuetify": "^1.1.7",
+    "vuex": "^3.0.1",
+    "vuex-router-sync": "^5.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.12.0",
+    "eslint-plugin-promise": "^3.6.0"
+  },
+  "private": true
+}
