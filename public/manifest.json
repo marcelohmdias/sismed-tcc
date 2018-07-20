@@ -50,6 +50,7 @@
       "type": "image/png"
     }
   ],
+  "scope": "/",
   "start_url": "/",
   "display": "fullscreen",
   "background_color": "#fff",

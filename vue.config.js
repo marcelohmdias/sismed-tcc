@@ -1,10 +1,5 @@
-const path = require('path')
-const glob = require('glob')
-
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
-const DashboardPlugin = require('webpack-dashboard/plugin')
 const NotifyPlugin = require('webpack-notifier')
-const PurgecssPlugin = require('purgecss-webpack-plugin')
 const WebpackBar = require('webpackbar')
 
 const BS_PROXY = {
@@ -18,40 +13,37 @@ const BS_CONFIG = {
   reload: false
 }
 
-const PATHS = {
-  src: path.join(__dirname, 'src')
+const plugins = [
+  new NotifyPlugin(),
+  new WebpackBar()
+]
+
+if (process.env.NODE_ENV === 'development') {
+  plugins.push(new BrowserSyncPlugin(BS_PROXY, BS_CONFIG))
 }
 
 module.exports = {
-  configureWebpack: {
-    plugins: [
-      new BrowserSyncPlugin(BS_PROXY, BS_CONFIG),
-
-      new DashboardPlugin(),
-
-      new NotifyPlugin(),
-
-      new PurgecssPlugin({
-        paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true })
-      }),
-
-      new WebpackBar()
-    ]
-  },
+  configureWebpack: { plugins },
   devServer: {
     progress: false
   },
   lintOnSave: true,
   runtimeCompiler: true,
   parallel: require('os').cpus().length > 1,
+  productionSourceMap: false,
   pwa: {
+    name: 'SISMed - Sistema de Gestão Médica',
+    // Theme Config
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: '#2d527c',
-    msTileColor: '#fff',
-    name: 'SISMed - Sistema de Gestão Médica',
+    msTileColor: '#2d527c',
     themeColor: '#2d527c',
+    // Plugin Config
+    workboxPluginMode: 'GenerateSW',
     workboxOptions: {
       cacheId: 'sismed-app',
+      navigateFallback: 'index.html',
+      skipWaiting: true,
       runtimeCaching: [
         {
           urlPattern: new RegExp(
