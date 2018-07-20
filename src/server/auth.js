@@ -4,10 +4,7 @@ export const current = () => auth().currentUser
 
 export const onAuthChanged = (callback) => auth().onAuthStateChanged(callback)
 
-export const recoverPassword = (email) => {
-  debugger
-  auth().sendPasswordResetEmail(email)
-}
+export const recoverPassword = (email) => auth().sendPasswordResetEmail(email)
 
 export const signin = async (email, password) => {
   const user = await auth().signInWithEmailAndPassword(email, password)

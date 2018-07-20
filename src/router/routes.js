@@ -135,7 +135,7 @@ const users = {
       beforeEnter,
       path: '/usuarios/pesquisa',
       name: 'ResearchUsers',
-      component: loadView('user/ResearchUsers'),
+      component: loadView('user/research/ResearchUsers'),
       meta: {
         requiresAuth: true
       },
@@ -155,7 +155,7 @@ const users = {
       beforeEnter,
       path: '/usuarios/novo',
       name: 'RegisterUsers',
-      component: loadView('user/RegisterUsers'),
+      component: loadView('user/create/RegisterUsers'),
       meta: {
         requiresAuth: true
       },
@@ -175,7 +175,7 @@ const users = {
       beforeEnter,
       path: '/usuarios/edicao/:id',
       name: 'EditUsers',
-      component: loadView('user/RegisterUsers'),
+      component: loadView('user/edit/EditUsers'),
       meta: {
         requiresAuth: true
       },

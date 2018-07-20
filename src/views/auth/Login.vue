@@ -4,7 +4,7 @@
       <v-toolbar-title v-t="'page.login.form_title'" />
     </v-toolbar>
     <v-card-text>
-      <f-form name="LoginForm" :submit="handleSubmit">
+      <f-form :submit="handleSubmit" name="LoginForm">
         <app-login-form slot-scope="props" :form="props" />
       </f-form>
       <btn-recovery class="btn__recovery" @openDialog="dialog(true)" />
@@ -13,10 +13,10 @@
       <v-layout>
         <v-flex xs12 sm3 offset-sm9>
           <v-btn
+            :disabled="isDisabled"
             type="submit"
             form="LoginForm"
             color="secondary"
-            :disabled="isDisabled"
             block
           >
             <app-icon name="login-variant" request />
@@ -43,8 +43,8 @@ const getters = mapGetters({ isLoading: 'isLoading' })
 
 export default {
   name: 'AppLogin',
-  mixins: [ FormRules ],
   components: { AppLoginForm, BtnRecovery },
+  mixins: [ FormRules ],
   props: {
     dialog: Typed.is.func.required.define
   },

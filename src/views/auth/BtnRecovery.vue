@@ -1,5 +1,5 @@
 <template>
-  <v-btn @click.stop="openDialog" flat small>
+  <v-btn flat small @click.stop="openDialog">
     <v-icon class="mdi mdi-key-variant" left small />
     <span v-t="'page.login.recover'" />
   </v-btn>

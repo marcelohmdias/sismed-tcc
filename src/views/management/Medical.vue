@@ -10,13 +10,23 @@
                 <v-flex xs12>
                   <v-layout row wrap>
                     <v-flex xs12 sm4 lg2>
-                      <v-text-field type="tel" label="cpf***" mask="###.###.###-##" />
+                      <v-text-field
+                        type="tel"
+                        label="cpf***"
+                        mask="###.###.###-##"
+                      />
                     </v-flex>
                     <v-flex xs12 sm8 lg4>
-                      <v-text-field type="text" label="name***" />
+                      <v-text-field
+                        type="text"
+                        label="name***"
+                      />
                     </v-flex>
                     <v-flex xs12 sm4 lg2>
-                      <v-text-field type="text" label="data de nascimento***" />
+                      <v-text-field
+                        type="text"
+                        label="data de nascimento***"
+                      />
                     </v-flex>
                   </v-layout>
                 </v-flex>
@@ -52,7 +62,7 @@
         </v-container>
       </v-card-text>
       <v-card-actions class="px-3 pb-3 pt-0">
-        <v-btn color="secondary" :to="{ name: 'RegisterUsers' }">
+        <v-btn :to="{ name: 'RegisterUsers' }" color="secondary">
           <app-icon name="plus-circle" />
           <span v-t="'globals.button.new'" />
         </v-btn>

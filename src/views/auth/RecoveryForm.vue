@@ -7,29 +7,28 @@
     <v-layout row wrap>
       <v-flex xs12 sm9>
         <f-field
-          name="emailRecovery"
           :validate="validate('error.login.email_field', required, email)"
+          name="emailRecovery"
         >
-          <div slot-scope="props">
+          <template slot-scope="props">
             <v-text-field
-              prepend-icon="email"
-              type="email"
-              :id="props.name"
               :name="props.name"
               :label="$t('page.login.form.email')"
               :rules="checkError(props.meta)"
               :value="props.value"
+              prepend-icon="email"
+              type="email"
               v-on="props.events"
             />
-          </div>
+          </template>
         </f-field>
       </v-flex>
       <v-flex xs12 sm3>
         <v-btn
-          color="secondary"
-          type="submit"
           :disabled="isDisabled"
           :form="form.name"
+          color="secondary"
+          type="submit"
           block
         >
           <app-icon name="send" request />
@@ -63,12 +62,12 @@ export default {
       return this.formIsDisabled('RecoveryForm')
     }
   },
+  mounted () {
+    EventBus.$on('$CloseDialog', () => this.form.methods.reset())
+  },
   methods: {
     email: (...args) => email(...args),
     required: (...args) => required(...args)
-  },
-  mounted () {
-    EventBus.$on('$CloseDialog', () => this.form.methods.reset())
   }
 }
 </script>

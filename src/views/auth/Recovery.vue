@@ -1,19 +1,19 @@
 <template>
   <v-dialog v-model="isOpened" max-width="800" persistent>
     <v-card>
-      <v-card-title class="title" v-t="'page.login.recover_title'" />
+      <v-card-title v-t="'page.login.recover_title'" class="title" />
       <v-card-text>
-        <f-form name="RecoveryForm" :submit="handleSubmit">
+        <f-form :submit="handleSubmit" name="RecoveryForm">
           <app-recovery-form slot-scope="props" :form="props" />
         </f-form>
       </v-card-text>
       <v-card-actions>
         <v-spacer />
         <v-btn
-          color="secondary"
           v-t="'globals.button.close'"
-          @click="close"
+          color="secondary"
           flat
+          @click="close"
         />
       </v-card-actions>
     </v-card>

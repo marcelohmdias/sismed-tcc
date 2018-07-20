@@ -5,12 +5,12 @@
     :name="name"
     :label="$t(label)"
     :value="value"
-    @change="change"
     v-bind="$attrs"
     single-line
+    @change="change"
   >
     <template slot="selection" slot-scope="data">
-      <span class="selected--text" v-t="data.item.text" />
+      <span v-t="data.item.text" class="selected--text" />
     </template>
     <template slot="item" slot-scope="data">
       <v-list-tile-content>

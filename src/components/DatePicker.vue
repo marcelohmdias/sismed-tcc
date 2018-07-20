@@ -2,24 +2,27 @@
   <div>
     <v-dialog
       ref="dialog"
-      width="290px"
       v-model="opened"
-      full-width lazy persistent
+      width="290px"
+      full-width
+      lazy
+      persistent
     >
       <slot slot="activator" />
       <v-date-picker
+        :value="parsedValue"
         class="datepicker__custom"
         locale="pt-br"
-        :value="parsedValue"
+        reactive
+        scrollable
         @change="changeDate"
-        reactive scrollable
       >
-        <v-spacer></v-spacer>
+        <v-spacer/>
         <v-btn
-          color="primary"
           v-t="'globals.button.close'"
-          @click="close"
+          color="primary"
           flat
+          @click="close"
         />
       </v-date-picker>
     </v-dialog>

@@ -1,20 +1,20 @@
 <template>
   <v-data-table
-    class="elevation-1"
     :headers="headers"
     :items="items"
     :rows-per-page-items="rows"
     :no-data-text="$t('globals.table.no_items_found')"
     :rows-per-page-text="$t('globals.table.lines_per_page')"
+    class="elevation-1"
     sort-icon="mdi-chevron-down"
   >
     <template slot="headerCell" slot-scope="props">
-      <span class="table__title" v-t="props.header.text" />
+      <span v-t="props.header.text" class="table__title" />
     </template>
     <template slot="items" slot-scope="props">
       <tr>
         <td class="layout">
-          <v-btn class="mx-0" @click="edit(props.item)" icon>
+          <v-btn class="mx-0" icon @click="edit(props.item)">
             <v-tooltip bottom>
               <span slot="activator">
                 <v-icon color="secondary">edit</v-icon>
@@ -22,7 +22,7 @@
               <span v-t="'globals.button.edit'" />
             </v-tooltip>
           </v-btn>
-          <v-btn class="mx-0" @click.stop="dialog = true" icon>
+          <v-btn class="mx-0" icon @click.stop="dialog = true">
             <v-tooltip bottom>
               <span slot="activator">
                 <v-icon color="secondary">delete</v-icon>
@@ -32,20 +32,19 @@
             <v-dialog v-model="dialog" max-width="600">
               <v-card>
                 <v-card-title class="headline">
-                  <span v-t="'Atenção***'" />
+                  <span v-t="'globals.title.attention'" />
                 </v-card-title>
                 <v-card-text>
-                  <span>Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.</span>
+                  <span v-t="'globals.table.remove'" />
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer />
-
                   <v-btn
                     color="green darken-1"
                     flat="flat"
                     @click="dialog = false"
                   >
-                    <span v-t="'Cancelar***'" />
+                    <span v-t="'globals.button.cancel'" />
                   </v-btn>
 
                   <v-btn
@@ -53,7 +52,7 @@
                     flat="flat"
                     @click="close(props.item)"
                   >
-                    <span v-t="'Confirmar***'" />
+                    <span v-t="'globals.button.confirm'" />
                   </v-btn>
                 </v-card-actions>
               </v-card>

@@ -1,7 +1,11 @@
 <template>
   <div>
-    <v-breadcrumbs class="pb-1 pl-1" v-if="items.length"  large>
-      <app-icon class="breadcrumb__icon__divider" slot="divider" name="chevron-right" />
+    <v-breadcrumbs v-if="items.length" class="pb-3 pl-1" large>
+      <app-icon
+        slot="divider"
+        class="breadcrumb__icon__divider"
+        name="chevron-right"
+      />
       <v-breadcrumbs-item
         v-for="item in items"
         :key="item.text"
@@ -11,9 +15,9 @@
           <span class="icon-page">
             <app-icon :name="item.icon" />
           </span>
-          <span class="title-page" v-t="item.text" />
+          <span v-t="item.text" class="title-page" />
         </span>
-        <span class="subtitle-page" v-t="item.text" v-else />
+        <span v-t="item.text" v-else class="subtitle-page" />
       </v-breadcrumbs-item>
     </v-breadcrumbs>
   </div>
@@ -22,15 +26,18 @@
 <script>
 import EventBus from '@/helpers/EventBus'
 
+const items = []
+
 export default {
   name: 'AppBreadcrumbs',
-  data: () => ({
-    items: []
-  }),
-  mounted () {
-    EventBus.$on('load', (items) => {
+  data: () => ({ items }),
+  methods: {
+    editBreadcrumbs (items) {
       this.items = items
-    })
+    }
+  },
+  mounted () {
+    EventBus.$on('load', this.editBreadcrumbs)
   }
 }
 </script>
@@ -42,7 +49,6 @@ export default {
   & > .v-icon
     color #2d527c
     font-size 2em !important
-    padding-bottom 0.25em
 
 .breadcrumb__icon__divider,
 .subtitle-page,
@@ -52,4 +58,5 @@ export default {
 .title-page
   font-size 1.25em !important
   font-weight 500
+  line-height 2em
 </style>

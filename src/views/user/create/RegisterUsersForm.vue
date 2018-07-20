@@ -5,45 +5,44 @@
     @submit.prevent="form.methods.submit"
   >
     <v-layout row wrap>
-      <v-flex xs12>
+      <v-flex xs12 sm8 md8 lg6>
         <f-field
-          name="oldPassword"
-          :validate="validate('error.required.default', required)"
+          name="email"
+          :validate="validate('error.required.default', required, email)"
         >
           <template slot-scope="props">
             <v-text-field
-              :type="type.old"
-              :append-icon="icon.old"
               :name="props.name"
-              :label="$t('page.profile.form.old_password')"
+              :label="$t('page.profile.form.email')"
               :rules="checkError(props.meta)"
               :value="props.value"
-              @click:append="changeIcon('old')"
               v-on="props.events"
+              type="email"
+              autofocus
             />
           </template>
         </f-field>
       </v-flex>
-      <v-flex xs12>
+      <v-flex xs12 sm4 md4 lg3>
         <f-field
-          name="newPassword"
-          :validate="validate('error.profile.password', required, minLength(6))"
+          name="password"
+          :validate="validate('error.user.password', required, minLength(6))"
         >
           <template slot-scope="props">
             <v-text-field
-              :type="type.new"
-              :append-icon="icon.new"
+              :type="type.password"
+              :append-icon="icon.password"
               :name="props.name"
-              :label="$t('page.profile.form.new_password')"
+              :label="$t('page.user.form.password')"
               :rules="checkError(props.meta)"
               :value="props.value"
-              @click:append="changeIcon('new')"
               v-on="props.events"
+              @click:append="changeIcon('password')"
             />
           </template>
         </f-field>
       </v-flex>
-      <v-flex xs12>
+      <v-flex xs12 sm4 md4 lg3>
         <f-field
           name="repeatPassword"
           :validate="validate('error.profile.repeat_password', required, isEquals)"
@@ -56,8 +55,8 @@
               :label="$t('page.profile.form.repeat_password')"
               :rules="checkError(props.meta)"
               :value="props.value"
-              @click:append="changeIcon('repeat')"
               v-on="props.events"
+              @click:append="changeIcon('repeat')"
             />
           </template>
         </f-field>
@@ -67,38 +66,34 @@
 </template>
 
 <script>
-import { minLength, required } from 'vuelidate/lib/validators'
+import { email, required, minLength } from 'vuelidate/lib/validators'
 
-import EventBus from '@/helpers/EventBus'
-import FieldRules from '@/mixins/FieldRules'
 import Typed from '@/modules/typed'
+import FieldRules from '@/mixins/FieldRules'
 
 export default {
-  name: 'PasswordForm',
+  name: 'AppRegisterUsersForm',
   mixins: [ FieldRules ],
+  inject: [ 'formConfig' ],
   props: {
     form: Typed.is.obj.define
   },
   data: () => ({
     icon: {
-      new: 'visibility',
-      old: 'visibility',
+      password: 'visibility',
       repeat: 'visibility'
     },
     type: {
-      new: 'password',
-      old: 'password',
+      password: 'password',
       repeat: 'password'
     }
   }),
-  mounted () {
-    EventBus.$on('$CloseDialog', () => this.form.methods.reset())
-  },
   methods: {
+    email: (...args) => email(...args),
     minLength: (...args) => minLength(...args),
     required: (...args) => required(...args),
     isEquals (value) {
-      return this.form.state.values.newPassword === value
+      return this.form.state.values.password === value
     },
     changeIcon (field) {
       this.icon[field] = this.icon[field] === 'visibility'

@@ -1,6 +1,6 @@
 <template>
   <v-card flat>
-    <f-form name="ProfileForm" :submit="submitHandler">
+    <f-form :submit="submitHandler" name="ProfileForm">
       <app-profile-form
         slot-scope="props"
         :entity="entity"
@@ -9,10 +9,10 @@
     </f-form>
     <v-card-actions>
       <v-btn
+        :disabled="formIsDisabled('ProfileForm')"
         type="submit"
         form="ProfileForm"
         color="secondary"
-        :disabled="formIsDisabled('ProfileForm')"
       >
         <app-icon name="content-save" request />
         <span v-t="'globals.button.save'" />
@@ -33,8 +33,8 @@ const actions = mapActions({ saveUser: 'profile/SAVE_USER' })
 
 export default {
   name: 'AppProfileData',
-  mixins: [ FormRules ],
   components: { AppProfileForm },
+  mixins: [ FormRules ],
   props: {
     entity: Typed.is.obj.define
   },

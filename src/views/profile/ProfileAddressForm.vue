@@ -7,23 +7,20 @@
     <v-container grid-list-lg>
       <v-layout row wrap>
         <v-flex xs12 sm3>
-          <f-field
-            name="zip_cod"
-          >
-            <div slot-scope="props">
+          <f-field name="zip_cod" >
+            <template slot-scope="props">
               <v-text-field
-                type="tel"
-                :id="props.name"
                 :name="props.name"
                 :label="$t('page.profile.form.zip_cod')"
                 :rules="checkError(props.meta)"
                 :value="props.value"
-                v-on="props.events"
-                @blur="searchZipCode(props.value, props.meta)"
+                type="tel"
                 mask="##.###-###"
                 autofocus
+                v-on="props.events"
+                @blur="searchZipCode(props.value, props.meta)"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs10 sm7>
@@ -31,17 +28,16 @@
             name="public_place"
             :validate="validate('error.required.public_place', required)"
           >
-            <div slot-scope="props">
+            <template slot-scope="props">
               <v-text-field
-                type="text"
-                :id="props.name"
                 :name="props.name"
                 :label="$t('page.profile.form.public_place')"
                 :rules="checkError(props.meta)"
                 :value="props.value"
+                type="text"
                 v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs2 sm2>
@@ -49,34 +45,30 @@
             name="number"
             :validate="validate('error.required.number', required)"
           >
-            <div slot-scope="props">
+            <template slot-scope="props">
               <v-text-field
-                type="number"
-                :id="props.name"
                 :name="props.name"
                 :label="$t('page.profile.form.number')"
                 :rules="checkError(props.meta)"
                 :value="props.value"
+                type="number"
                 v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs12 md6>
-          <f-field
-            name="complement"
-          >
-            <div slot-scope="props">
+          <f-field name="complement" >
+            <template slot-scope="props">
               <v-text-field
-                type="text"
-                :id="props.name"
                 :name="props.name"
                 :label="$t('page.profile.form.complement')"
                 :rules="checkError(props.meta)"
                 :value="props.value"
+                type="text"
                 v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs12 md6>
@@ -84,17 +76,16 @@
             name="neighborhood"
             :validate="validate('error.required.neighborhood', required)"
           >
-            <div slot-scope="props">
+            <template slot-scope="props">
               <v-text-field
-                type="text"
-                :id="props.name"
                 :name="props.name"
                 :label="$t('page.profile.form.neighborhood')"
                 :rules="checkError(props.meta)"
                 :value="props.value"
+                type="text"
                 v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs12 sm6>
@@ -102,17 +93,16 @@
             name="city"
             :validate="validate('error.required.city', required)"
           >
-            <div slot-scope="props">
+            <template slot-scope="props">
               <v-text-field
-                type="text"
-                :id="props.name"
                 :name="props.name"
                 :label="$t('page.profile.form.city')"
                 :rules="checkError(props.meta)"
                 :value="props.value"
+                type="text"
                 v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs12 sm6 md6>
@@ -120,16 +110,15 @@
             name="state"
             :validate="validate('error.required.state', required)"
           >
-            <div slot-scope="props">
+            <template slot-scope="props">
               <app-select
                 :items="stateItem"
-                :id="props.name"
                 :name="props.name"
                 :label="'page.profile.form.state'"
                 :value="props.value"
                 v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs12 sm4>
@@ -137,34 +126,34 @@
             name="address_type"
             :validate="validate('error.required.type', required)"
           >
-            <div slot-scope="props">
+            <template slot-scope="props">
               <app-select
                 :items="typeItem"
-                :id="props.name"
                 :name="props.name"
                 :label="'page.profile.form.type'"
                 :value="props.value"
                 v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
-        <v-flex xs12 sm4>
+        <v-flex
+          xs12
+          sm4>
           <f-field
             name="address_status"
             :validate="validate('error.required.status', required)"
           >
-            <div slot-scope="props">
+            <template slot-scope="props">
               <app-select
                 :items="statusItem"
-                :id="props.name"
                 :name="props.name"
                 :label="'page.profile.form.status'"
                 :value="props.value"
-                v-on="props.events"
                 :readonly="!entity._id"
+                v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
       </v-layout>
@@ -230,6 +219,15 @@ export default {
       ]
     }
   },
+  watch: {
+    entity: {
+      handler: 'updateFormValue',
+      immediate: true
+    }
+  },
+  mounted () {
+    EventBus.$on('$CloseDialog', () => this.form.methods.reset())
+  },
   methods: {
     required: (...args) => required(...args),
     async searchZipCode (value, meta) {
@@ -259,15 +257,6 @@ export default {
         address_type: this.entity.type
       })
     }
-  },
-  watch: {
-    entity: {
-      handler: 'updateFormValue',
-      immediate: true
-    }
-  },
-  mounted () {
-    EventBus.$on('$CloseDialog', () => this.form.methods.reset())
   }
 }
 </script>

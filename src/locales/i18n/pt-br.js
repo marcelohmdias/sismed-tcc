@@ -57,14 +57,18 @@ export default {
     full_name: 'SISMed: Sistema de Gestão Médica',
     short_name: 'SISMed',
     title: {
+      attention: 'Atenção',
       edit: 'Edição',
       register: 'Cadastro',
       research: 'Consulta',
       search: 'Pesquisa'
     },
     button: {
+      cancel: 'Cancelar',
       clean: 'Limpar',
       close: 'Fechar',
+      come_back: 'Voltar',
+      confirm: 'Confirmar',
       edit: 'Editar',
       new: 'Novo',
       remove: 'Remover',
@@ -93,7 +97,8 @@ export default {
     },
     table: {
       lines_per_page: 'Linhas por página',
-      no_items_found: 'Nenhum item localizado'
+      no_items_found: 'Nenhum item localizado',
+      remove: 'Deseja remover o registro?'
     }
   },
   page: {
@@ -127,7 +132,7 @@ export default {
         old_password: 'Senha antiga',
         permission_type: 'Permissão',
         public_place: 'Logradouro',
-        repeat_password: 'Repita a senha',
+        repeat_password: 'Repita a Senha',
         sex: 'Sexo',
         state: 'Estado',
         status: 'Situação',
@@ -162,6 +167,9 @@ export default {
       }
     },
     user: {
+      form: {
+        password: 'Senha'
+      },
       table: {
         full_name: 'Nome Completo',
         email: 'E-mail',
@@ -195,6 +203,7 @@ export default {
         delete: 'Remoção de Contato'
       },
       recovery: 'Recuperação de Senha',
+      search: 'Consulta de Registros',
       signin: 'Bem Vindo ao SISMed',
       signout: 'SISMed App'
     },
@@ -236,8 +245,9 @@ export default {
     profile: {
       password: 'O campo "Nova senha" é obrigatório e deve conter no mínimo 6 (seis) caracteres.',
       repeat_password: 'O valor digitado deve ser identico ao campo "Nova senha".'
-
+    },
+    user: {
+      password: 'O campo "Senha" é obrigatório e deve conter no mínimo 6 (seis) caracteres.'
     }
-
   }
 }

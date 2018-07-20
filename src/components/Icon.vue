@@ -1,17 +1,15 @@
 <template>
-  <v-icon class="mdi" :class="icon" left small />
+  <v-icon :class="icon" class="mdi" left small />
 </template>
 
 <script>
+import Typed from '@/modules/typed'
 
 export default {
   name: 'AppIcon',
   props: {
-    name: {
-      required: true,
-      type: String
-    },
-    request: Boolean
+    name: Typed.is.str.required.define,
+    request: Typed.is.bool.define
   },
   computed: {
     icon () {

@@ -9,17 +9,17 @@
       </v-card-text>
       <v-card-actions>
         <v-btn
+          v-t="'globals.button.save'"
+          :disabled="isDisabled"
           type="submit"
           form="PasswordForm"
           color="secondary"
-          v-t="'globals.button.save'"
-          :disabled="isDisabled"
           flat
         />
         <v-spacer />
         <v-btn
-          color="secondary"
           v-t="'globals.button.close'"
+          color="secondary"
           @click="close"
           flat
         />
@@ -47,8 +47,8 @@ const states = mapState({
 
 export default {
   name: 'AppChangePassword',
-  mixins: [ FormRules ],
   components: { AppPasswordForm },
+  mixins: [ FormRules ],
   props: {
     dialog: Typed.is.func.required.define
   },

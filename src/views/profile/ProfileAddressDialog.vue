@@ -13,19 +13,19 @@
       </v-card-text>
       <v-card-actions>
         <v-btn
+          v-t="'globals.button.save'"
+          :disabled="isDisabled"
           type="submit"
           form="AddressForm"
           color="secondary"
-          v-t="'globals.button.save'"
-          :disabled="isDisabled"
           flat
         />
         <v-spacer />
         <v-btn
-          color="secondary"
           v-t="'globals.button.close'"
-          @click="close"
+          color="secondary"
           flat
+          @click="close"
         />
       </v-card-actions>
     </v-card>

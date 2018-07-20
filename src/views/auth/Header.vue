@@ -1,6 +1,6 @@
 <template>
   <v-toolbar color="primary" app dark>
-    <v-toolbar-title class="mx-auto headline" v-t="'globals.app_name'" />
+    <v-toolbar-title v-t="'globals.app_name'" class="mx-auto headline" />
   </v-toolbar>
 </template>
 

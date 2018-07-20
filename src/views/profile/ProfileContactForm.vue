@@ -11,36 +11,32 @@
             name="number_phone"
             :validate="validate('error.required.number_phone', required)"
           >
-            <div slot-scope="props">
+            <template slot-scope="props">
               <v-text-field
-                type="tel"
-                :id="props.name"
                 :name="props.name"
                 :label="$t('page.profile.form.number_phone')"
                 :rules="checkError(props.meta)"
                 :value="props.value"
-                v-on="props.events"
                 :mask="mask"
+                type="tel"
                 autofocus
+                v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs12 sm6>
-          <f-field
-            name="contact_person"
-          >
-            <div slot-scope="props">
+          <f-field name="contact_person">
+            <template slot-scope="props">
               <v-text-field
-                type="text"
-                :id="props.name"
                 :name="props.name"
                 :label="$t('page.profile.form.contact_person')"
                 :rules="checkError(props.meta)"
                 :value="props.value"
+                type="text"
                 v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs12 sm4>
@@ -48,16 +44,15 @@
             name="contact_type"
             :validate="validate('error.required.type', required)"
           >
-            <div slot-scope="props">
+            <template slot-scope="props">
               <app-select
                 :items="typeItem"
-                :id="props.name"
                 :name="props.name"
                 :label="'page.profile.form.type'"
                 :value="props.value"
                 v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs12 sm4>
@@ -65,17 +60,16 @@
             name="contact_status"
             :validate="validate('error.required.status', required)"
           >
-            <div slot-scope="props">
+            <template slot-scope="props">
               <app-select
                 :items="statusItem"
-                :id="props.name"
                 :name="props.name"
                 :label="'page.profile.form.status'"
                 :value="props.value"
-                v-on="props.events"
                 :readonly="!entity._id"
+                v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
       </v-layout>
@@ -116,6 +110,15 @@ export default {
       return value.length < 11 ? '(##) ####-#####' : '(##) #####-####'
     }
   },
+  watch: {
+    entity: {
+      handler: 'updateFormValue',
+      immediate: true
+    }
+  },
+  mounted () {
+    EventBus.$on('$CloseDialog', () => this.form.methods.reset())
+  },
   methods: {
     required: (...args) => required(...args),
     updateFormValue () {
@@ -127,15 +130,6 @@ export default {
         contact_type: this.entity.type
       })
     }
-  },
-  watch: {
-    entity: {
-      handler: 'updateFormValue',
-      immediate: true
-    }
-  },
-  mounted () {
-    EventBus.$on('$CloseDialog', () => this.form.methods.reset())
   }
 }
 </script>

@@ -5,41 +5,39 @@
     @submit.prevent="form.methods.submit"
   >
     <f-field
-      name="email"
       :validate="validate('error.login.email_field', required, email)"
+      name="email"
     >
-      <div slot-scope="props">
+      <template slot-scope="props">
         <v-text-field
-          prepend-icon="person"
-          type="email"
-          :id="props.name"
           :name="props.name"
           :label="$t('page.login.form.email')"
           :rules="checkError(props.meta)"
           :value="props.value"
-          v-on="props.events"
+          prepend-icon="person"
+          type="email"
           autofocus
+          v-on="props.events"
         />
-      </div>
+      </template>
     </f-field>
     <f-field
-      name="password"
       :validate="validate('error.login.password_field', required, minLength(6))"
+      name="password"
     >
-      <div slot-scope="props">
+      <template slot-scope="props">
         <v-text-field
-          id="password"
           :type="type"
           :append-icon="icon"
-          @click:append="changeIcon"
-          prepend-icon="lock"
           :name="props.name"
           :label="$t('page.login.form.password')"
           :rules="checkError(props.meta)"
           :value="props.value"
+          prepend-icon="lock"
+          @click:append="changeIcon"
           v-on="props.events"
         />
-      </div>
+      </template>
     </f-field>
   </v-form>
 </template>

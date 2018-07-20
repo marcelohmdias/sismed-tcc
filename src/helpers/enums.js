@@ -11,6 +11,12 @@ export const contact = new Enum({
   mobile: 2
 })
 
+export const permission = new Enum({
+  attendant: 1,
+  doctor: 2,
+  manager: 3
+})
+
 export const state = new Enum({
   AC: 1,
   AL: 2,
@@ -49,6 +55,7 @@ export const status = new Enum({
 export default {
   address,
   contact,
+  permission,
   state,
   status
 }

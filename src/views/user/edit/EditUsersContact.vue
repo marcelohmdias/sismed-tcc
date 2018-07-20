@@ -7,13 +7,11 @@
           :headers="headers"
           :items="items"
           :order="order"
-          :edit="editEntity"
-          :remove="removeEntity"
         />
       </v-flex>
     </v-layout>
     <v-card-actions >
-      <v-btn class="btn__space" color="secondary" @click="newEntity()">
+      <v-btn class="btn__space" color="secondary">
         <app-icon name="plus-circle" />
         <span v-t="'globals.button.new'" />
       </v-btn>
@@ -26,24 +24,10 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-
-import Typed from '@/modules/typed'
 import enums from '@/helpers/enums'
 
-import AppProfileContactDialog from './ProfileContactDialog'
-
-const actions = mapActions({
-  deleteContact: 'profile/DELETE_CONTACT'
-})
-
 export default {
-  name: 'AppProfileContact',
-  components: { AppProfileContactDialog },
-  props: {
-    dialog: Typed.is.func.required.define,
-    items: Typed.is.array.default([]).define
-  },
+  name: 'EditUsersContact',
   data () {
     return {
       entity: {},
@@ -83,30 +67,6 @@ export default {
     }
   },
   methods: {
-    ...actions,
-    editEntity (entity) {
-      this.entity = entity
-      this.dialog(true)
-    },
-    newEntity () {
-      this.entity = {
-        status: 1
-      }
-      this.dialog(true)
-    },
-    removeEntity (state) {
-      try {
-        this.$Progress.start()
-        const user = this.$store.state.profile.data._id
-        const _id = state._id
-
-        this.deleteContact({ user, _id })
-      } catch (error) {
-        this.$Progress.fail()
-      } finally {
-        this.$Progress.finish()
-      }
-    },
     formatPhone (value = '') {
       if (value.length === 10) {
         return value.replace(/(\d{2})(\d{4})(\d+)/g, '( $1 ) $2 - $3')

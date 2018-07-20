@@ -1,9 +1,15 @@
 <template>
   <div>
-    <v-navigation-drawer :mini-variant="mini" :clipped="true" v-model="drawer" app fixed>
+    <v-navigation-drawer
+      :mini-variant="mini"
+      :clipped="true"
+      v-model="drawer"
+      app
+      fixed
+    >
       <v-flex>
-        <v-avatar class="d-block mb-3 mt-3 mx-auto" :size="size" tile="">
-          <img :src="logo" alt="Logo" />
+        <v-avatar :size="size" class="d-block mb-3 mt-3 mx-auto" tile>
+          <img :src="logo" alt="Logo" >
         </v-avatar>
       </v-flex>
       <v-list dense>
@@ -11,24 +17,28 @@
           <v-list-group v-if="item.children" :key="item.name">
             <v-list-tile slot="activator">
               <v-list-tile-action>
-                <v-icon class="mdi" :class="`mdi-${item.icon}`" />
+                <v-icon :class="`mdi-${item.icon}`" class="mdi" />
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title v-t="item.title" />
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile v-for="child in item.children" :to="{ name: child.name }" :key="child.name">
+            <v-list-tile
+              v-for="child in item.children"
+              :to="{ name: child.name }"
+              :key="child.name"
+            >
               <v-list-tile-action>
-                <v-icon class="mdi" :class="`mdi-${child.icon}`" />
+                <v-icon :class="`mdi-${child.icon}`" class="mdi" />
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title v-t="child.title" />
               </v-list-tile-content>
             </v-list-tile>
           </v-list-group>
-          <v-list-tile :to="{ name: item.name }" :key="item.mame" v-else>
+          <v-list-tile v-else :to="{ name: item.name }" :key="item.mame">
             <v-list-tile-action>
-              <v-icon class="mdi" :class="`mdi-${item.icon}`" />
+              <v-icon :class="`mdi-${item.icon}`" class="mdi" />
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title v-t="item.title" />
@@ -37,18 +47,18 @@
         </template>
       </v-list>
       <v-flex>
-        <v-btn block color="primary" @click.stop="miniMenu" dark flat>
-          <v-icon class="mdi" :class="`mdi-chevron-${position}`" />
+        <v-btn block color="primary" dark flat @click.stop="miniMenu">
+          <v-icon :class="`mdi-chevron-${position}`" class="mdi" />
         </v-btn>
       </v-flex>
     </v-navigation-drawer>
-    <v-toolbar color="primary" :clipped-left="true" dark app fixed>
+    <v-toolbar :clipped-left="true" color="primary" dark app fixed>
       <v-toolbar-title class="ml-0 pl-0">
         <v-toolbar-side-icon @click.stop="showMenu" />
         <router-link
-          class="hidden-sm-and-down title"
-          :to="{ name: 'Home' }"
           v-t="'globals.app_name'"
+          :to="{ name: 'Home' }"
+          class="hidden-sm-and-down title"
         />
       </v-toolbar-title>
       <v-spacer />
@@ -85,7 +95,7 @@
       </v-container>
     </v-content>
     <v-footer color="primary" app dark>
-      <span class="v-footer__text" v-t="'globals.full_name'" />
+      <span v-t="'globals.full_name'" class="v-footer__text" />
       <span class="v-footer__text">&copy; 2018</span>
     </v-footer>
   </div>
@@ -136,9 +146,10 @@ export default {
     }
   },
   mounted () {
-    this.getUserEntity({ uid: this.$store.state.auth.user }).then((fn) => {
-      this.unsubscribe = fn
-    })
+    (async () => {
+      const uid = this.$store.state.auth.user
+      this.unsubscribe = await this.getUserEntity({ uid })
+    })()
   }
 }
 </script>

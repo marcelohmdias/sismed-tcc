@@ -1,18 +1,17 @@
 <template>
   <v-card width="100%">
-    <v-toolbar dark color="primary">
+    <v-toolbar color="primary" dark>
       <v-toolbar-title v-t="'page.profile.title'" />
     </v-toolbar>
     <v-container>
       <v-layout row wrap>
         <v-flex xs12 sm8 md9 lg10>
           <v-text-field
-            id="email"
+            :label="$t('page.profile.form.email')"
+            :value="entity.email"
             name="email"
             type="email"
             prepend-icon="email"
-            :label="$t('page.profile.form.email')"
-            :value="entity.email"
             readonly
           />
         </v-flex>
@@ -24,14 +23,19 @@
         </v-flex>
         <app-change-password :dialog="openPasswordDialog" />
         <v-flex xs12>
-          <v-tabs v-model="tabState" color="grey lighten-3" slider-color="primary" left show-arrows>
+          <v-tabs
+            v-model="tabState"
+            color="grey lighten-3"
+            slider-color="primary"
+            left
+            show-arrows>
             <v-tab href="#tab-0">
               <app-icon name="account-box" />
               <span class="v-tabs__title" v-t="'page.profile.tab.datas'" />
             </v-tab>
             <v-tab href="#tab-1">
               <app-icon name="account-card-details" />
-              <span  class="v-tabs__title" v-t="'page.profile.tab.addresses'" />
+              <span class="v-tabs__title" v-t="'page.profile.tab.addresses'" />
             </v-tab>
             <v-tab href="#tab-2">
               <app-icon name="phone" />

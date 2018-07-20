@@ -11,17 +11,16 @@
             name="full_name"
             :validate="validate('error.required.full_name', required)"
           >
-            <div slot-scope="props">
+            <template slot-scope="props">
               <v-text-field
-                type="text"
-                :id="props.name"
                 :name="props.name"
                 :label="$t('page.profile.form.full_name')"
                 :rules="checkError(props.meta)"
                 :value="props.value"
+                type="text"
                 v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs12 sm6 md4 lg3>
@@ -30,19 +29,20 @@
             :formatter="dateFormatter"
             :validate="validate('error.required.date_birth', required)"
           >
-            <div slot-scope="props">
-              <app-date-picker :value="props.value" v-on="props.events">
+            <template slot-scope="props">
+              <app-date-picker
+                :value="props.value"
+                v-on="props.events">
                 <v-text-field
-                  type="text"
-                  :id="props.name"
                   :name="props.name"
                   :label="$t('page.profile.form.date_birth')"
                   :rules="checkError(props.meta)"
                   :value="props.value"
+                  type="text"
                   readonly
                 />
               </app-date-picker>
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs12 sm6 md4 lg3>
@@ -50,18 +50,17 @@
             name="sex"
             :validate="validate('error.required.sex', required)"
           >
-            <div slot-scope="props">
+            <template slot-scope="props">
               <app-select
                 :items="sexItems"
-                :id="props.name"
                 :name="props.name"
                 :label="'page.profile.form.sex'"
                 :rules="checkError(props.meta)"
                 :value="props.value"
-                v-on="props.events"
                 clearable
+                v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs12 sm6 md4 lg3>
@@ -69,48 +68,45 @@
             name="cpf"
             :validate="validate('error.required.cpf', required)"
           >
-            <div slot-scope="props">
+            <template slot-scope="props">
               <v-text-field
-                type="tel"
-                :id="props.name"
                 :name="props.name"
                 :label="$t('page.profile.form.cpf')"
                 :rules="checkError(props.meta)"
                 :value="props.value"
-                v-on="props.events"
+                type="tel"
                 mask="###.###.###-##"
+                v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs12 sm6 md4 lg3>
           <f-field name="status">
-            <div slot-scope="props">
+            <template slot-scope="props">
               <app-select
                 :items="statusItem"
-                :id="props.name"
                 :name="props.name"
                 :label="'page.profile.form.status'"
                 :value="props.value"
-                v-on="props.events"
                 readonly
+                v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
         <v-flex xs12 sm6 md4 lg3>
           <f-field name="permission_type">
-            <div slot-scope="props">
+            <template slot-scope="props">
               <app-select
                 :items="permissionItem"
-                :id="props.name"
                 :name="props.name"
                 :label="'page.profile.form.permission_type'"
                 :value="props.value"
-                v-on="props.events"
                 readonly
+                v-on="props.events"
               />
-            </div>
+            </template>
           </f-field>
         </v-flex>
       </v-layout>
@@ -145,10 +141,16 @@ export default {
         { text: 'enums.status.active', value: 1 }
       ],
       permissionItem: [
-        { text: 'enums.permission.manager', value: 1 },
-        { text: 'enums.permission.attendant', value: 2 },
-        { text: 'enums.permission.doctor', value: 3 }
+        { text: 'enums.permission.attendant', value: 1 },
+        { text: 'enums.permission.doctor', value: 2 },
+        { text: 'enums.permission.manager', value: 3 }
       ]
+    }
+  },
+  watch: {
+    entity: {
+      handler: 'updateFormValue',
+      immediate: true
     }
   },
   methods: {
@@ -159,17 +161,16 @@ export default {
     updateFormValue () {
       if (!this.entity._id) return
 
-      const birth = this.entity.date_birth.toMillis()
+      let birth = null
+
+      if (this.entity.date_birth) {
+        birth = this.entity.date_birth.toMillis()
+      }
+
       this.formConfig.initialize({
         ...this.entity,
         date_birth: birth
       })
-    }
-  },
-  watch: {
-    entity: {
-      handler: 'updateFormValue',
-      immediate: true
     }
   }
 }

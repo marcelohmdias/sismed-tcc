@@ -1,6 +1,8 @@
+import app from './../../package.json'
+
 const appName = 'SISMed App'
 const companyName = 'Sistema de Gestão Médica'
-const version = '1.0.0'
+const version = app.version
 const hasSw = (navigator.serviceWorker && navigator.serviceWorker.controller)
 const mode = (window.matchMedia('(display-mode: standalone)').matches)
   ? 'standalone'

@@ -16,11 +16,13 @@ import { onAuthChanged } from './server/auth'
 import './registerServiceWorker'
 import './plugins'
 
-const isDev = process.env.NODE_ENV !== 'production'
+const isDev = process.env.NODE_ENV === 'development'
 
+Vue.config.debug = isDev
 Vue.config.devtools = isDev
 Vue.config.performance = isDev
 Vue.config.productionTip = false
+Vue.config.silent = !isDev
 
 sync(store, router)
 

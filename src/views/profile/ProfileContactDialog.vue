@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title class="title" v-t="'page.profile.contact_title'" />
       <v-card-text>
-        <f-form name="ContactForm" :submit="submitHandler">
+        <f-form :submit="submitHandler" name="ContactForm">
           <app-profile-contact-form
             slot-scope="props"
             :form="props"
@@ -13,19 +13,19 @@
       </v-card-text>
       <v-card-actions>
         <v-btn
+          v-t="'globals.button.save'"
+          :disabled="isDisabled"
           type="submit"
           form="ContactForm"
           color="secondary"
-          v-t="'globals.button.save'"
-          :disabled="isDisabled"
           flat
         />
         <v-spacer />
         <v-btn
-          color="secondary"
           v-t="'globals.button.close'"
-          @click="close"
+          color="secondary"
           flat
+          @click="close"
         />
       </v-card-actions>
     </v-card>
