@@ -46,10 +46,7 @@
 </template>
 
 <script>
-import {
-  mapActions,
-  mapState
-} from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 import PageRules from '@/mixins/PageRules'
 import AppResearchUserForm from './ResearchUserForm'
@@ -71,7 +68,7 @@ export default {
   components: {
     AppResearchUserForm
   },
-  mixins: [PageRules],
+  mixins: [ PageRules ],
   head: {
     title: {
       inner: 'SISMed',

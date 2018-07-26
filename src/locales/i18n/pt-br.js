@@ -179,9 +179,27 @@ export default {
         status: 'Situação'
       },
       title: {
+        list_medical: 'Lista de Médicos',
         list_user: 'Lista de Usuários',
         permission: 'Permissões',
         root: 'Usuários'
+      }
+    },
+    medical: {
+      form: {
+        date: 'Data de Registro',
+        registry: 'Registro',
+        speciality: 'Especialidade'
+      },
+      title: {
+        root: 'Médicos',
+        specialities: 'Lista de Especialidades',
+        speciality: 'Cadastro de Especialidades'
+      },
+      table: {
+        date: 'Data de Registro',
+        registry: 'Registro',
+        speciality: 'Especialidade'
       }
     }
   },

@@ -68,7 +68,7 @@ const patients = {
         breadcrumbs: [
           {
             text: 'page.patient.title.root',
-            icon: 'account-group'
+            icon: 'account-card-details'
           },
           {
             text: 'globals.title.register'
@@ -194,16 +194,86 @@ const users = {
   ]
 }
 
+const medical = {
+  path: '/medicos',
+  name: 'Medical',
+  component: loadView('medical/Medical'),
+  redirect: '/medicos/pesquisa',
+  children: [
+    {
+      beforeEnter,
+      path: '/medicos/pesquisa',
+      name: 'MedicalResearch',
+      component: loadView('medical/MedicalResearch'),
+      meta: {
+        requiresAuth: true
+      },
+      props: {
+        breadcrumbs: [
+          {
+            text: 'page.medical.title.root',
+            icon: 'medical-bag'
+          },
+          {
+            text: 'globals.title.research'
+          }
+        ]
+      }
+    },
+    {
+      beforeEnter,
+      path: '/medicos/novo',
+      name: 'RegisterMedicals',
+      component: loadView('medical/RegisterMedicals'),
+      meta: {
+        requiresAuth: true
+      },
+      props: {
+        breadcrumbs: [
+          {
+            text: 'page.medical.title.root',
+            icon: 'medical-bag'
+          },
+          {
+            text: 'globals.title.register'
+          }
+        ]
+      }
+    },
+    {
+      beforeEnter,
+      path: '/medicos/edicao/:id',
+      name: 'EditMedicals',
+      component: loadView('medical/RegisterMedicals'),
+      meta: {
+        requiresAuth: true
+      },
+      props: {
+        breadcrumbs: [
+          {
+            text: 'page.medical.title.root',
+            icon: 'medical-bag'
+          },
+          {
+            text: 'globals.title.edit'
+          }
+        ]
+      }
+    }
+  ]
+}
+
 const management = {
   path: '/gestao',
   name: 'Management',
   component: loadView('management/Management'),
+  redirect: '/gestao/relatorios',
   children: [
     {
       beforeEnter,
-      path: '/gestao/medicos',
-      name: 'Medical',
-      component: loadView('management/Medical'),
+      path: '/gestao/relatorios',
+      name: 'Reports',
+      component: loadView('management/Reports'),
       meta: {
         requiresAuth: true
       },
@@ -218,12 +288,6 @@ const management = {
           }
         ]
       }
-    },
-    {
-      beforeEnter,
-      path: '/gestao/relatorios',
-      name: 'Reports',
-      component: loadView('management/Reports')
     }
   ]
 }
@@ -241,7 +305,16 @@ export default [
   },
   {
     component: loadView('base/Base'),
-    children: [ home, profile, schedule, patients, records, users, management ],
+    children: [
+      home,
+      profile,
+      schedule,
+      patients,
+      records,
+      users,
+      medical,
+      management
+    ],
     name: 'Base',
     path: '/',
     redirect: '/inicio'

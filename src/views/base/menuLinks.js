@@ -66,15 +66,27 @@ export default [
     ]
   },
   {
+    icon: 'medical-bag',
+    name: 'Medical',
+    title: 'globals.menu.medical',
+    children: [
+      {
+        icon: 'magnify',
+        name: 'MedicalResearch',
+        title: 'globals.menu.research'
+      },
+      {
+        icon: 'clipboard-account',
+        name: 'RegisterMedicals',
+        title: 'globals.menu.register'
+      }
+    ]
+  },
+  {
     icon: 'tune',
     name: 'Management',
     title: 'globals.menu.management',
     children: [
-      {
-        icon: 'medical-bag',
-        name: 'Medical',
-        title: 'globals.menu.medical'
-      },
       {
         icon: 'clipboard-text',
         name: 'Reports',

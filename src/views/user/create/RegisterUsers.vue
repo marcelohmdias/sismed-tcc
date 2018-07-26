@@ -6,7 +6,7 @@
       </f-form>
     </v-container>
     <v-card-actions>
-      <v-container class="pt-0" grid-list-lg>
+      <v-container class="pt-0 px-2 pb-2" grid-list-lg>
         <v-layout>
           <v-flex xs12 sm4 md3 lg2>
             <v-btn
@@ -30,9 +30,9 @@
 import { mapActions } from 'vuex'
 
 import PageRules from '@/mixins/PageRules'
+import FormRules from '@/mixins/FormRules'
 
 import AppRegisterUsersForm from './RegisterUsersForm'
-import FormRules from '@/mixins/FormRules'
 
 const actions = mapActions({
   saveUser: 'users/CREATE_USER',

@@ -3,8 +3,18 @@
 </template>
 
 <script>
+import PageRules from '@/mixins/PageRules'
+
 export default {
-  name: 'Reports'
+  name: 'Reports',
+  mixins: [ PageRules ],
+  head: {
+    title: {
+      inner: 'SISMed',
+      separator: ' - ',
+      complement: 'Consulta de Relatórios'
+    }
+  }
 }
 </script>
 
