@@ -17,13 +17,19 @@
         <app-icon name="plus-circle" />
         <span v-t="'globals.button.new'" />
       </v-btn>
-      <app-profile-address-dialog :dialog="dialog" :entity="entity" />
+      <app-profile-address-dialog
+        :action="saveAddress"
+        :dialog="dialog"
+        :entity="entity"
+        :opened="opened"
+        :user="user"
+      />
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 import Typed from '@/modules/typed'
 import enums from '@/helpers/enums'
@@ -31,7 +37,12 @@ import enums from '@/helpers/enums'
 import AppProfileAddressDialog from './ProfileAddressDialog'
 
 const actions = mapActions({
-  deleteAddress: 'profile/DELETE_ADDRESS'
+  deleteAddress: 'profile/DELETE_ADDRESS',
+  saveAddress: 'profile/SAVE_ADDRESS'
+})
+
+const states = mapState({
+  opened: (state) => state.profile.dialogAddress
 })
 
 export default {
@@ -39,7 +50,8 @@ export default {
   components: { AppProfileAddressDialog },
   props: {
     dialog: Typed.is.func.required.define,
-    items: Typed.is.array.default([]).define
+    items: Typed.is.array.default([]).define,
+    user: Typed.is.str.default('').define
   },
   data () {
     return {
@@ -104,6 +116,7 @@ export default {
       ]
     }
   },
+  computed: { ...states },
   methods: {
     ...actions,
     editEntity (entity) {
@@ -111,15 +124,13 @@ export default {
       this.dialog(true)
     },
     newEntity () {
-      this.entity = {
-        status: 1
-      }
+      this.entity = { status: 1 }
       this.dialog(true)
     },
     removeEntity (state) {
       try {
         this.$Progress.start()
-        const user = this.$store.state.profile.data._id
+        const user = this.user
         const _id = state._id
 
         this.deleteAddress({ user, _id })
@@ -143,7 +154,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <style lang="stylus" scoped>

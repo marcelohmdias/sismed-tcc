@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isOpened" max-width="800" persistent>
+  <v-dialog v-model="opened" max-width="800" persistent>
     <v-card>
       <v-card-title class="title" v-t="'page.profile.address_title'" />
       <v-card-text>
@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
 
 import EventBus from '@/helpers/EventBus'
 import Typed from '@/modules/typed'
@@ -41,30 +40,23 @@ import FormRules from '@/mixins/FormRules'
 
 import AppProfileAddressForm from './ProfileAddressForm'
 
-const actions = mapActions({
-  saveAddress: 'profile/SAVE_ADDRESS'
-})
-
-const states = mapState({
-  isOpened: (state) => state.profile.dialogAddress
-})
-
 export default {
   name: 'AppProfileAddressDialog',
   components: { AppProfileAddressForm },
   mixins: [ FormRules ],
   props: {
+    action: Typed.is.func.required.define,
     dialog: Typed.is.func.required.define,
-    entity: Typed.is.obj.required.define
+    entity: Typed.is.obj.required.define,
+    opened: Typed.is.bool.required.define,
+    user: Typed.is.str.required.define
   },
   computed: {
-    ...states,
     isDisabled () {
       return this.formIsDisabled('AddressForm')
     }
   },
   methods: {
-    ...actions,
     close () {
       EventBus.$emit('$CloseDialog')
       this.dialog(false)
@@ -73,7 +65,7 @@ export default {
       try {
         this.$Progress.start()
 
-        const user = this.$store.state.profile.data._id
+        const user = this.user
         const _id = state._id
 
         const data = {
@@ -88,7 +80,7 @@ export default {
           status: state.address_status
         }
 
-        await this.saveAddress({ _id, data, user })
+        await this.action({ _id, data, user })
 
         this.close()
       } catch (err) {

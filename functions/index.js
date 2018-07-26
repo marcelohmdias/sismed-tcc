@@ -22,3 +22,13 @@ exports.createUser = functions.firestore
       })
       .catch((error) => error)
   })
+
+  exports.deleteUser = functions.firestore
+    .document('users/{user}')
+    .onDelete((snap) => {
+      const data = snap.data()
+      const uid = data.user_id
+      admin.auth().revokeRefreshTokens(uid)
+        .then(() => admin.auth().deleteUser(uid))
+        .catch((error) => error)
+    })

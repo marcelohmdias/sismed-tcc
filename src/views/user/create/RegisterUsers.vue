@@ -34,7 +34,10 @@ import PageRules from '@/mixins/PageRules'
 import AppRegisterUsersForm from './RegisterUsersForm'
 import FormRules from '@/mixins/FormRules'
 
-const actions = mapActions({ saveUser: 'users/CREATE_USER' })
+const actions = mapActions({
+  saveUser: 'users/CREATE_USER',
+  resetUserEntity: 'users/RESET_USER'
+})
 
 export default {
   name: 'RegisterUsers',
@@ -72,6 +75,9 @@ export default {
         this.$Progress.finish()
       }
     }
+  },
+  created () {
+    this.resetUserEntity()
   }
 }
 </script>

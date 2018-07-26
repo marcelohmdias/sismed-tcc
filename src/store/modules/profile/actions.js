@@ -1,5 +1,6 @@
 import createHash from '@/helpers/createHash'
 import errorHandler from '@/helpers/errorHandler'
+import createAction from '@/utils/createAction'
 
 import {
   addAddress,
@@ -26,8 +27,6 @@ import {
   SAVE_CONTACT,
   DELETE_CONTACT
 } from './mutations-types'
-
-import createAction from '@/utils/createAction'
 
 const parseAction = (ctx, status) => ({ status })
 
@@ -56,7 +55,7 @@ const getDataUser = async ({ commit, dispatch }, { uid }) => {
   }
 }
 
-const changePasswordAction = async ({ commit, dispatch }, { oldPassword, newPassword }) => {
+const changePasswordAction = async ({ dispatch }, { oldPassword, newPassword }) => {
   const id = createHash()
 
   try {

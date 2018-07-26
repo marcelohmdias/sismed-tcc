@@ -4,7 +4,12 @@ import mutations from './mutations'
 const namespaced = true
 
 const state = {
-  data: null,
+  data: {
+    addresses: [],
+    contacts: []
+  },
+  dialogAddress: false,
+  dialogContact: false,
   list: []
 }
 

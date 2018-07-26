@@ -121,6 +121,7 @@ export default class Typed {
     this._props.default = () => value
     return this
   }
+
   /**
    * @description Defines the attribute by the value passed in the function
    * @param {any} type

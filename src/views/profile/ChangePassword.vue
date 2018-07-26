@@ -10,7 +10,7 @@
       <v-card-actions>
         <v-btn
           v-t="'globals.button.save'"
-          :disabled="isDisabled"
+          :disabled="formIsDisabled('PasswordForm')"
           type="submit"
           form="PasswordForm"
           color="secondary"
@@ -29,37 +29,27 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
-
 import EventBus from '@/helpers/EventBus'
 import Typed from '@/modules/typed'
 import FormRules from '@/mixins/FormRules'
 
 import AppPasswordForm from './PasswordForm'
 
-const actions = mapActions({
-  changePassword: 'profile/CHANGE_PASSWORD'
-})
-
-const states = mapState({
-  isOpened: (state) => state.profile.dialogPassword
-})
-
 export default {
   name: 'AppChangePassword',
   components: { AppPasswordForm },
   mixins: [ FormRules ],
   props: {
-    dialog: Typed.is.func.required.define
+    action: Typed.is.func.required.define,
+    dialog: Typed.is.func.required.define,
+    model: Typed.is.str.required.define
   },
   computed: {
-    ...states,
-    isDisabled () {
-      return this.formIsDisabled('PasswordForm')
+    isOpened () {
+      return this.$store.state[this.model].dialogPassword
     }
   },
   methods: {
-    ...actions,
     close () {
       EventBus.$emit('$CloseDialog')
       this.dialog(false)
@@ -67,7 +57,7 @@ export default {
     async submitHandle ({ newPassword, oldPassword }) {
       try {
         this.$Progress.start()
-        await this.changePassword({ newPassword, oldPassword })
+        await this.action({ newPassword, oldPassword })
         setTimeout(() => this.$Progress.finish(), 300)
         this.close()
       } catch (err) {

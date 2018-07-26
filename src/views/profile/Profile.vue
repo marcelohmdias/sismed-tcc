@@ -21,7 +21,11 @@
             <span v-t="'globals.button.trade_password'" />
           </v-btn>
         </v-flex>
-        <app-change-password :dialog="openPasswordDialog" />
+        <app-change-password
+          :action="changePassword"
+          :dialog="openPasswordDialog"
+          model="profile"
+        />
         <v-flex xs12>
           <v-tabs
             v-model="tabState"
@@ -50,12 +54,14 @@
               <app-profile-address
                 :items="entity.addresses"
                 :dialog="openAddressDialog"
+                :user="entity._id"
               />
             </v-tab-item>
             <v-tab-item id="tab-2">
               <app-profile-contact
                 :items="entity.contacts"
                 :dialog="openContactDialog"
+                :user="entity._id"
               />
             </v-tab-item>
           </v-tabs-items>
@@ -74,6 +80,7 @@ import AppProfileContact from './ProfileContact'
 import AppProfileData from './ProfileData'
 
 const actions = mapActions({
+  changePassword: 'profile/CHANGE_PASSWORD',
   openAddressDialog: 'profile/ADDRESS_DIALOG',
   openContactDialog: 'profile/CONTACT_DIALOG',
   openPasswordDialog: 'profile/PASSWORD_DIALOG'

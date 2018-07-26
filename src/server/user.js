@@ -8,14 +8,19 @@ const parseList = list => item => {
   list.push(doc)
 }
 
-export const getUser = async ({ uid }, fn) => {
-  const user = userRef().where('user_id', '==', uid)
+export const getUser = async ({ id, uid }, fn) => {
+  let user
+
+  if (id) user = userRef().doc(id)
+
+  if (uid) user = userRef().where('user_id', '==', uid)
 
   const userMute = user.onSnapshot((item) => {
     if (item.empty) return
 
-    const user = item.docs[0].data()
-    user._id = item.docs[0].ref.id
+    const user = id ? item.data() : item.docs[0].data()
+    user._id = id ? item.id : item.docs[0].ref.id
+
     fn('user', user)
   })
 
@@ -23,7 +28,7 @@ export const getUser = async ({ uid }, fn) => {
 
   if (dataEntity.empty) return
 
-  const userEntity = dataEntity.docs[0].ref
+  const userEntity = id ? dataEntity.ref : dataEntity.docs[0].ref
 
   const addressesMute = userEntity.collection('addresses').onSnapshot((docs) => {
     const addresses = []
@@ -99,8 +104,24 @@ export const createUser = async ({ email, password }) => {
   return user.id
 }
 
-export const saveUser = (_id, data) => {
-  return userRef().doc(_id).update(data)
+export const saveUser = (user, data) => {
+  return userRef().doc(user).update(data)
+}
+
+export const deleteUser = async (user) => {
+  const data = await userRef().doc(user)
+
+  const addressesRef = await data.collection('addresses').get()
+  addressesRef.forEach(async (item) => {
+    await item.ref.delete()
+  })
+
+  const contactsRef = await data.collection('contacts').get()
+  contactsRef.forEach(async (item) => {
+    await item.ref.delete()
+  })
+
+  return data.delete()
 }
 
 export const addAddress = (user, data) => {
@@ -134,6 +155,7 @@ export default {
   getUser,
   createUser,
   saveUser,
+  deleteUser,
   // Address User Operations
   addAddress,
   editAddress,

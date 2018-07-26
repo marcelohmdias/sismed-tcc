@@ -105,6 +105,7 @@ export default {
     login: {
       footer: 'Copyright &copy;',
       form_title: 'Digite seu e-mail e senha...',
+      form_title_password: 'Digite a nova senha...',
       recover: 'Esqueci minha senha',
       recover_title: 'Digite seu e-mail...',
       form: {
@@ -203,11 +204,15 @@ export default {
         delete: 'Remoção de Contato'
       },
       recovery: 'Recuperação de Senha',
+      reset_password: 'Troca de Senha',
       search: 'Consulta de Registros',
       signin: 'Bem Vindo ao SISMed',
-      signout: 'SISMed App'
+      signout: 'SISMed App',
+      user: 'Tela de Usuário',
+      user_delete: 'Deleção de Usuário'
     },
     success: {
+      email_changed: 'Um e-mail para troca de senha foi enviado para o usuário.',
       generic: 'Operação realizada com sucesso.',
       signin: 'Login realizado com sucesso.',
       signout: 'Logout realizado com sucesso.'

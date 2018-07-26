@@ -6,6 +6,7 @@
           slot-scope="props"
           :form="props"
           @clean="reset"
+          ref="formResearch"
         />
       </f-form>
     </v-card>
@@ -24,6 +25,8 @@
                 :items="items"
                 :order="order"
                 :edit="editEntity"
+                :remove="removeEntity"
+                :disabledRemove="checkItem"
               />
             </v-flex>
           </v-layout>
@@ -54,6 +57,7 @@ import AppResearchUserForm from './ResearchUserForm'
 import enums from '@/helpers/enums'
 
 const actions = mapActions({
+  deleteUser: 'users/DELETE_USER',
   getUserList: 'users/GET_USER_LIST',
   reset: 'users/RESET_USER_LIST'
 })
@@ -143,6 +147,22 @@ export default {
         name: 'EditUsers',
         params: { id: entity._id }
       })
+    },
+
+    checkItem (item) {
+      return item.user_id === this.$store.state.auth.user
+    },
+
+    async removeEntity (state) {
+      try {
+        this.$Progress.start()
+        await this.deleteUser({ user: state._id })
+        this.$refs.formResearch.form.methods.submit()
+      } catch (error) {
+        this.$Progress.fail()
+      } finally {
+        this.$Progress.finish()
+      }
     },
 
     formatCpf (value = '') {

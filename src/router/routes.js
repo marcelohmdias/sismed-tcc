@@ -235,6 +235,11 @@ export default [
     path: '/login'
   },
   {
+    component: loadView('auth/ChangePassword'),
+    name: 'ResetPassword',
+    path: '/troca-senha'
+  },
+  {
     component: loadView('base/Base'),
     children: [ home, profile, schedule, patients, records, users, management ],
     name: 'Base',

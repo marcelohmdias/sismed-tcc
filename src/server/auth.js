@@ -20,3 +20,12 @@ export const changePassword = async (oldPassword, newPassword) => {
   await signin(current().email, oldPassword)
   return current().updatePassword(newPassword)
 }
+
+export const requestChangePassword = (email) => {
+  return auth().sendPasswordResetEmail(email)
+}
+
+export const passwordReset = async (oobCode, password) => {
+  await auth().verifyPasswordResetCode(oobCode)
+  return auth().confirmPasswordReset(oobCode, password)
+}

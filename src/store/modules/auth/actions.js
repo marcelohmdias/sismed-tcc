@@ -1,7 +1,7 @@
 import createHash from '@/helpers/createHash'
 import errorHandler from '@/helpers/errorHandler'
 
-import { signin, signout, recoverPassword } from '@/server/auth'
+import { signin, signout, recoverPassword, passwordReset } from '@/server/auth'
 
 import { getByid } from '@/server/user'
 
@@ -9,6 +9,7 @@ import {
   CURRENT_USER,
   RECOVERY_DIALOG,
   RECOVER_PASSWORD,
+  RESET_PASSWORD,
   SIGNIN_USER,
   SIGNOUT_USER
 } from './mutations-types'
@@ -40,6 +41,35 @@ const recoverPasswordAction = async ({ dispatch }, { email }) => {
     const notify = {
       body: errorHandler(err.code),
       title: 'message.title.recovery',
+      type: 'error'
+    }
+
+    dispatch('notify/ADD', notify, { root: true })
+    throw new Error(err)
+  } finally {
+    dispatch('FINISH_REQUEST', { id }, { root: true })
+  }
+}
+
+const resetPasswordAction = async ({ dispatch }, { oobCode, password }) => {
+  const id = createHash()
+
+  try {
+    dispatch('INIT_REQUEST', { id }, { root: true })
+
+    await passwordReset(oobCode, password)
+
+    const notify = {
+      body: 'message.success.generic',
+      title: 'message.title.reset_password',
+      type: 'success'
+    }
+
+    dispatch('notify/ADD', notify, { root: true })
+  } catch (err) {
+    const notify = {
+      body: errorHandler(err.code),
+      title: 'message.title.reset_password',
       type: 'error'
     }
 
@@ -112,6 +142,7 @@ export default {
   [CURRENT_USER]: currentUserAction,
   [RECOVERY_DIALOG]: openRecoveryDialogAction,
   [RECOVER_PASSWORD]: recoverPasswordAction,
+  [RESET_PASSWORD]: resetPasswordAction,
   [SIGNIN_USER]: signinUserAction,
   [SIGNOUT_USER]: signoutUserAction
 }

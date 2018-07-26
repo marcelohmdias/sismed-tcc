@@ -18,15 +18,18 @@
         <span v-t="'globals.button.new'" />
       </v-btn>
       <app-profile-contact-dialog
+        :action="saveContact"
         :dialog="dialog"
         :entity="entity"
+        :opened="opened"
+        :user="user"
       />
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 import Typed from '@/modules/typed'
 import enums from '@/helpers/enums'
@@ -34,7 +37,12 @@ import enums from '@/helpers/enums'
 import AppProfileContactDialog from './ProfileContactDialog'
 
 const actions = mapActions({
-  deleteContact: 'profile/DELETE_CONTACT'
+  deleteContact: 'profile/DELETE_CONTACT',
+  saveContact: 'profile/SAVE_CONTACT'
+})
+
+const states = mapState({
+  opened: (state) => state.profile.dialogContact
 })
 
 export default {
@@ -42,7 +50,8 @@ export default {
   components: { AppProfileContactDialog },
   props: {
     dialog: Typed.is.func.required.define,
-    items: Typed.is.array.default([]).define
+    items: Typed.is.array.default([]).define,
+    user: Typed.is.str.default('').define
   },
   data () {
     return {
@@ -82,6 +91,7 @@ export default {
       ]
     }
   },
+  computed: { ...states },
   methods: {
     ...actions,
     editEntity (entity) {
@@ -97,7 +107,7 @@ export default {
     removeEntity (state) {
       try {
         this.$Progress.start()
-        const user = this.$store.state.profile.data._id
+        const user = this.user
         const _id = state._id
 
         this.deleteContact({ user, _id })

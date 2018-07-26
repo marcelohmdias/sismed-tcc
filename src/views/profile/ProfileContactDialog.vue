@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isOpened" max-width="600" persistent>
+  <v-dialog v-model="opened" max-width="600" persistent>
     <v-card>
       <v-card-title class="title" v-t="'page.profile.contact_title'" />
       <v-card-text>
@@ -33,38 +33,29 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
-
 import EventBus from '@/helpers/EventBus'
 import Typed from '@/modules/typed'
 import FormRules from '@/mixins/FormRules'
 
 import AppProfileContactForm from './ProfileContactForm'
 
-const actions = mapActions({
-  saveContact: 'profile/SAVE_CONTACT'
-})
-
-const states = mapState({
-  isOpened: (state) => state.profile.dialogContact
-})
-
 export default {
   name: 'AppProfileContactDialog',
   components: { AppProfileContactForm },
   mixins: [ FormRules ],
   props: {
+    action: Typed.is.func.required.define,
     dialog: Typed.is.func.required.define,
-    entity: Typed.is.obj.required.define
+    entity: Typed.is.obj.required.define,
+    opened: Typed.is.bool.required.define,
+    user: Typed.is.str.required.define
   },
   computed: {
-    ...states,
     isDisabled () {
       return this.formIsDisabled('ContactForm')
     }
   },
   methods: {
-    ...actions,
     close () {
       EventBus.$emit('$CloseDialog')
       this.dialog(false)
@@ -73,7 +64,7 @@ export default {
       try {
         this.$Progress.start()
 
-        const user = this.$store.state.profile.data._id
+        const user = this.user
         const _id = state._id
 
         const data = {
@@ -83,7 +74,7 @@ export default {
           status: state.contact_status
         }
 
-        await this.saveContact({ _id, data, user })
+        await this.action({ _id, data, user })
 
         this.close()
       } catch (err) {

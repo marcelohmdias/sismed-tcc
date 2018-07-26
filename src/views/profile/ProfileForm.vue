@@ -57,7 +57,6 @@
                 :label="'page.profile.form.sex'"
                 :rules="checkError(props.meta)"
                 :value="props.value"
-                clearable
                 v-on="props.events"
               />
             </template>
@@ -74,9 +73,9 @@
                 :label="$t('page.profile.form.cpf')"
                 :rules="checkError(props.meta)"
                 :value="props.value"
+                v-on="props.events"
                 type="tel"
                 mask="###.###.###-##"
-                v-on="props.events"
               />
             </template>
           </f-field>
@@ -89,8 +88,8 @@
                 :name="props.name"
                 :label="'page.profile.form.status'"
                 :value="props.value"
-                readonly
                 v-on="props.events"
+                readonly
               />
             </template>
           </f-field>
@@ -147,12 +146,6 @@ export default {
       ]
     }
   },
-  watch: {
-    entity: {
-      handler: 'updateFormValue',
-      immediate: true
-    }
-  },
   methods: {
     required: (...args) => required(...args),
     dateFormatter () {
@@ -171,6 +164,12 @@ export default {
         ...this.entity,
         date_birth: birth
       })
+    }
+  },
+  watch: {
+    entity: {
+      handler: 'updateFormValue',
+      immediate: true
     }
   }
 }
