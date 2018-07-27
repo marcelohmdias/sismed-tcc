@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card-title v-t="'globals.title.search'" class="title" />
+    <v-card-title class="title" v-t="'globals.title.search'" />
     <v-card-text class="pa-0">
       <v-container class="pt-0 px-3" grid-list-lg>
         <v-layout row wrap>
@@ -27,19 +27,6 @@
                       </f-field>
                     </v-flex>
                     <v-flex xs12 sm4 md3 lg2>
-                      <f-field name="registry">
-                        <template slot-scope="props">
-                          <v-text-field
-                            :name="props.name"
-                            :label="$t('page.medical.form.registry')"
-                            :value="props.value"
-                            v-on="props.events"
-                            type="text"
-                          />
-                        </template>
-                      </f-field>
-                    </v-flex>
-                    <v-flex xs12 sm4 md3 lg2>
                       <f-field name="cpf">
                         <template slot-scope="props">
                           <v-text-field
@@ -50,6 +37,23 @@
                             v-on="props.events"
                             mask="###.###.###-##"
                           />
+                        </template>
+                      </f-field>
+                    </v-flex>
+                    <v-flex xs12 sm4 md3 lg2>
+                      <f-field name="date_birth">
+                        <template slot-scope="props">
+                          <app-date-picker
+                            :value="props.value"
+                            v-on="props.events">
+                            <v-text-field
+                              :name="props.name"
+                              :label="$t('page.profile.form.date_birth')"
+                              :value="props.value"
+                              type="text"
+                              readonly
+                            />
+                          </app-date-picker>
                         </template>
                       </f-field>
                     </v-flex>
@@ -78,7 +82,7 @@
 import Typed from '@/modules/typed'
 
 export default {
-  name: 'MedicalResearchForm',
+  name: 'ResearchPatientsForm',
   props: {
     form: Typed.is.obj.define
   },
@@ -89,9 +93,8 @@ export default {
     }
   }
 }
-
 </script>
 
-<style lang="stylus" scoped>
+<style>
 
 </style>

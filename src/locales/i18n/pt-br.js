@@ -113,6 +113,37 @@ export default {
         password: 'Senha'
       }
     },
+    medical: {
+      form: {
+        date: 'Data de Registro',
+        registry: 'Registro',
+        speciality: 'Especialidade'
+      },
+      title: {
+        root: 'Médicos',
+        specialities: 'Lista de Especialidades',
+        speciality: 'Cadastro de Especialidades'
+      },
+      table: {
+        date: 'Data de Registro',
+        registry: 'Registro',
+        speciality: 'Especialidade'
+      }
+    },
+    patient: {
+      form: {
+        health_plan: 'Plano de Saúde',
+        note: 'Observações',
+        number_plan: 'Número do Plano'
+      },
+      title: {
+        root: 'Pacientes'
+      },
+      table: {
+        date_birth: 'Data de Nascimento',
+        sex: 'Sexo'
+      }
+    },
     profile: {
       title: 'Perfil',
       address_title: 'Cadastro de Endereço',
@@ -183,23 +214,6 @@ export default {
         list_user: 'Lista de Usuários',
         permission: 'Permissões',
         root: 'Usuários'
-      }
-    },
-    medical: {
-      form: {
-        date: 'Data de Registro',
-        registry: 'Registro',
-        speciality: 'Especialidade'
-      },
-      title: {
-        root: 'Médicos',
-        specialities: 'Lista de Especialidades',
-        speciality: 'Cadastro de Especialidades'
-      },
-      table: {
-        date: 'Data de Registro',
-        registry: 'Registro',
-        speciality: 'Especialidade'
       }
     }
   },

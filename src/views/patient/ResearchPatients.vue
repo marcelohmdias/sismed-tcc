@@ -1,50 +1,14 @@
 <template>
   <div>
     <v-card class="mb-4" width="100%">
-      <v-card-title class="title" v-t="'globals.title.search'" />
-      <v-card-text class="pa-0">
-        <v-container class="pt-0 px-3" grid-list-lg>
-          <v-layout row wrap>
-            <v-flex>
-              <v-layout row wrap>
-                <v-flex xs12>
-                  <v-layout row wrap>
-                    <v-flex xs12 sm4 lg2>
-                      <v-text-field
-                        type="tel"
-                        label="cpf***"
-                        mask="###.###.###-##"
-                      />
-                    </v-flex>
-                    <v-flex xs12 sm8 lg4>
-                      <v-text-field
-                        type="text"
-                        label="name***"
-                      />
-                    </v-flex>
-                    <v-flex xs12 sm4 lg2>
-                      <v-text-field
-                        type="text"
-                        label="data de nascimento***"
-                      />
-                    </v-flex>
-                  </v-layout>
-                </v-flex>
-              </v-layout>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-card-text>
-      <v-card-actions class="px-3 pb-3 pt-0">
-        <v-btn color="secondary">
-          <app-icon name="magnify" request />
-          <span v-t="'globals.button.search'" />
-        </v-btn>
-        <v-btn color="secondary">
-          <app-icon name="eraser" request />
-          <span v-t="'globals.button.clean'" />
-        </v-btn>
-      </v-card-actions>
+      <f-form :submit="searchUser" name="ResearchPatientForm">
+        <app-research-patients-form
+          slot-scope="props"
+          :form="props"
+          @clean="reset"
+          ref="ResearchPatientForm"
+        />
+      </f-form>
     </v-card>
     <v-card>
       <v-card-title class="title" v-t="'page.user.title.list_user'" />
@@ -62,7 +26,7 @@
         </v-container>
       </v-card-text>
       <v-card-actions class="px-3 pb-3 pt-0">
-        <v-btn color="secondary" :to="{ name: 'RegisterUsers' }">
+        <v-btn color="secondary" :to="{ name: 'RegisterPatients' }">
           <app-icon name="plus-circle" />
           <span v-t="'globals.button.new'" />
         </v-btn>
@@ -73,10 +37,12 @@
 
 <script>
 import PageRules from '@/mixins/PageRules'
+import AppResearchPatientsForm from './ResearchPatientsForm'
 
 export default {
   name: 'AppResearchPatients',
   mixins: [ PageRules ],
+  components: { AppResearchPatientsForm },
   head: {
     title: {
       inner: 'SISMed',
@@ -104,8 +70,12 @@ export default {
         value: 'cpf'
       },
       {
-        text: 'page.user.table.permission_type',
-        value: 'permission_type'
+        text: 'page.patient.table.date_birth',
+        value: 'date_birth'
+      },
+      {
+        text: 'page.patient.table.sex',
+        value: 'sex'
       },
       {
         text: 'page.user.table.status',
@@ -116,10 +86,16 @@ export default {
       'full_name',
       'email',
       'cpf',
-      'permission_type',
+      'date_birth',
+      'sex',
       'status'
     ]
-  })
+  }),
+  methods: {
+    async searchUser (state, form) {},
+
+    reset () {}
+  }
 }
 </script>
 
