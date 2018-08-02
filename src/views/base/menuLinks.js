@@ -81,17 +81,5 @@ export default [
         title: 'globals.menu.register'
       }
     ]
-  },
-  {
-    icon: 'tune',
-    name: 'Management',
-    title: 'globals.menu.management',
-    children: [
-      {
-        icon: 'clipboard-text',
-        name: 'Reports',
-        title: 'globals.menu.reports'
-      }
-    ]
   }
 ]

@@ -263,35 +263,6 @@ const medical = {
   ]
 }
 
-const management = {
-  path: '/gestao',
-  name: 'Management',
-  component: loadView('management/Management'),
-  redirect: '/gestao/relatorios',
-  children: [
-    {
-      beforeEnter,
-      path: '/gestao/relatorios',
-      name: 'Reports',
-      component: loadView('management/Reports'),
-      meta: {
-        requiresAuth: true
-      },
-      props: {
-        breadcrumbs: [
-          {
-            text: 'page.management.title.root',
-            icon: 'tune'
-          },
-          {
-            text: 'globals.title.research'
-          }
-        ]
-      }
-    }
-  ]
-}
-
 export default [
   {
     component: loadView('auth/Auth'),
@@ -312,8 +283,7 @@ export default [
       patients,
       records,
       users,
-      medical,
-      management
+      medical
     ],
     name: 'Base',
     path: '/',

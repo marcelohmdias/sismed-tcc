@@ -82,7 +82,6 @@ export default {
     menu: {
       exams: 'Exames',
       home: 'Início',
-      management: 'Gestão',
       medical: 'Médicos',
       new_appointment: 'Novo',
       patients: 'Pacientes',
@@ -91,7 +90,6 @@ export default {
       record: 'Prontuário',
       research: 'Pesquisa',
       register: 'Cadastro',
-      reports: 'Relatórios',
       schedule: 'Agenda',
       users: 'Usuários'
     },
