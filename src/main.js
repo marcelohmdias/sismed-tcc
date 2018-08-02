@@ -1,6 +1,11 @@
 import Vue from 'vue'
 import { sync } from 'vuex-router-sync'
+
 import 'babel-polyfill'
+import '@progress/kendo-ui'
+import '@progress/kendo-theme-default/dist/all.css'
+import '@progress/kendo-ui/css/web/kendo.material.css'
+import '@progress/kendo-ui/css/mobile/kendo.mobile.material.css'
 
 // Modules
 import i18n from './locales'
@@ -15,6 +20,9 @@ import { onAuthChanged } from './server/auth'
 
 import './registerServiceWorker'
 import './plugins'
+import './env/kendo.core.min'
+
+window.kendo.culture('pt-BR')
 
 const isDev = process.env.NODE_ENV === 'development'
 

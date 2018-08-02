@@ -198,6 +198,14 @@ export default {
         }
       }
     },
+    schedule: {
+      appointment_title: 'Cadastro de Agendamentos de Consulta',
+      form: {
+        date: 'Data',
+        doctor: 'Médico',
+        patient: 'Paciente'
+      }
+    },
     user: {
       form: {
         password: 'Senha'
@@ -218,6 +226,7 @@ export default {
     }
   },
   message: {
+    no_data: 'Nenhum registro localizado...',
     title: {
       default: {
         error: 'Erro...'

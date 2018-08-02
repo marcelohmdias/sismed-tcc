@@ -1,10 +1,10 @@
 <template>
   <v-dialog v-model="opened" max-width="600" persistent>
     <v-card>
-      <v-card-title class="title" v-t="'page.profile.contact_title'" />
+      <v-card-title class="title" v-t="'page.schedule.appointment_title'" />
       <v-card-text>
-        <f-form :submit="submitHandler" name="ContactForm">
-          <app-profile-contact-form
+        <f-form :submit="submitHandler" name="AppointmentForm">
+          <app-appointment-form
             slot-scope="props"
             :form="props"
             :entity="entity"
@@ -16,7 +16,7 @@
           v-t="'globals.button.save'"
           :disabled="isDisabled"
           type="submit"
-          form="ContactForm"
+          form="AppointmentForm"
           color="secondary"
           flat
         />
@@ -37,22 +37,20 @@ import EventBus from '@/helpers/EventBus'
 import Typed from '@/modules/typed'
 import FormRules from '@/mixins/FormRules'
 
-import AppProfileContactForm from './ProfileContactForm'
+import AppAppointmentForm from './AppointmentForm'
 
 export default {
-  name: 'AppProfileContactDialog',
-  components: { AppProfileContactForm },
+  name: 'AppAppointmentDialog',
+  components: { AppAppointmentForm },
   mixins: [ FormRules ],
   props: {
-    action: Typed.is.func.required.define,
     dialog: Typed.is.func.required.define,
     entity: Typed.is.obj.required.define,
-    opened: Typed.is.bool.required.define,
-    user: Typed.is.str.required.define
+    opened: Typed.is.bool.required.define
   },
   computed: {
     isDisabled () {
-      return this.formIsDisabled('ContactForm')
+      return this.formIsDisabled('AppointmentForm')
     }
   },
   methods: {
@@ -64,17 +62,7 @@ export default {
       try {
         this.$Progress.start()
 
-        const user = this.user
-        const _id = state._id
-
-        const data = {
-          number: state.number_phone,
-          contact_person: state.contact_person || '',
-          type: state.contact_type,
-          status: state.contact_status
-        }
-
-        await this.action({ _id, data, user })
+        // await this.action({ _id, data, user })
 
         this.close()
       } catch (err) {

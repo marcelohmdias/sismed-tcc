@@ -72,6 +72,16 @@ export default class Typed {
   }
 
   /**
+   * @description Defines the attribute as Date
+   * @readonly
+   * @returns {Typed}
+   * @memberof Typed
+   */
+  get date () {
+    return this.type(Date)
+  }
+
+  /**
    * @description Defines the attribute as Number
    * @readonly
    * @returns {Typed}

@@ -4,6 +4,7 @@ import VueProgressBar from 'vue-progressbar'
 import Vuetify from 'vuetify'
 import VueSnotify from 'vue-snotify'
 import Formfy from './modules/formfy'
+import { SchedulerInstaller } from '@progress/kendo-scheduler-vue-wrapper'
 
 // Configs
 import notify from './env/notify'
@@ -23,6 +24,7 @@ Vue.use(VueHead)
 Vue.use(VueProgressBar, progress)
 Vue.use(VueSnotify, notify)
 Vue.use(Vuetify, theme)
+Vue.use(SchedulerInstaller)
 
 // Components
 Vue.component('app-breadcrumbs', Breadcrumbs)
