@@ -11,7 +11,7 @@
       </f-form>
     </v-card>
     <v-card>
-      <v-card-title class="title" v-t="'page.user.title.list_user'" />
+      <v-card-title class="title" v-t="'page.patient.title.list_patient'" />
       <v-card-text class="pa-0">
         <v-container class="pt-0 px-3" grid-list-lg>
           <v-layout row wrap>
@@ -93,12 +93,7 @@ export default {
   }),
   methods: {
     async searchUser (state, form) {},
-
     reset () {}
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-
-</style>

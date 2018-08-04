@@ -13,20 +13,21 @@
               <v-layout row wrap>
                 <v-flex xs12>
                   <v-layout row wrap>
-                    <v-flex xs12 sm8 md6 lg4>
-                      <f-field name="full_name">
+                    <v-flex xs12 sm6 md5 lg4>
+                      <f-field name="patient">
                         <template slot-scope="props">
-                          <v-text-field
+                          <v-autocomplete
+                            :items="[]"
                             :name="props.name"
-                            :label="$t('page.user.table.full_name')"
+                            :label="$t('page.schedule.form.patient')"
+                            :no-data-text="$t('message.no_data')"
                             :value="props.value"
                             v-on="props.events"
-                            type="text"
                           />
                         </template>
                       </f-field>
                     </v-flex>
-                    <v-flex xs12 sm4 md3 lg2>
+                    <v-flex xs12 sm6 md3 lg2>
                       <f-field name="cpf">
                         <template slot-scope="props">
                           <v-text-field
@@ -40,15 +41,29 @@
                         </template>
                       </f-field>
                     </v-flex>
+                    <v-flex xs12 sm6 md4 lg4>
+                      <f-field name="doctor">
+                        <template slot-scope="props">
+                          <v-autocomplete
+                            :items="[]"
+                            :name="props.name"
+                            :label="$t('page.schedule.form.doctor')"
+                            :no-data-text="$t('message.no_data')"
+                            :value="props.value"
+                            v-on="props.events"
+                          />
+                        </template>
+                      </f-field>
+                    </v-flex>
                     <v-flex xs12 sm4 md3 lg2>
-                      <f-field name="date_birth">
+                      <f-field name="date">
                         <template slot-scope="props">
                           <app-date-picker
                             :value="props.value"
                             v-on="props.events">
                             <v-text-field
                               :name="props.name"
-                              :label="$t('page.profile.form.date_birth')"
+                              :label="$t('page.exam.table.date')"
                               :value="props.value"
                               type="text"
                               readonly
@@ -82,7 +97,7 @@
 import Typed from '@/modules/typed'
 
 export default {
-  name: 'ResearchPatientsForm',
+  name: 'ExamsForm',
   props: {
     form: Typed.is.obj.define
   },

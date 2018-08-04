@@ -100,6 +100,18 @@ export default {
     }
   },
   page: {
+    exam: {
+      table: {
+        date: 'Data',
+        doctor: 'Médicos',
+        patient: 'Paciente',
+        status: 'Situação'
+      },
+      title: {
+        list_exam: 'Lista de Exames',
+        root: 'Exames'
+      }
+    },
     login: {
       footer: 'Copyright &copy;',
       form_title: 'Digite seu e-mail e senha...',
@@ -119,6 +131,7 @@ export default {
       },
       title: {
         root: 'Médicos',
+        list_medical: 'Lista de Médicos',
         specialities: 'Lista de Especialidades',
         speciality: 'Cadastro de Especialidades'
       },
@@ -135,7 +148,8 @@ export default {
         number_plan: 'Número do Plano'
       },
       title: {
-        root: 'Pacientes'
+        root: 'Pacientes',
+        list_patient: 'Lista de Pacientes'
       },
       table: {
         date_birth: 'Data de Nascimento',
@@ -194,6 +208,11 @@ export default {
           type: 'Tipo',
           status: 'Situação'
         }
+      }
+    },
+    record: {
+      title: {
+        root: 'Prontuários'
       }
     },
     schedule: {

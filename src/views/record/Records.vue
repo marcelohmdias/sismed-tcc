@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Records</h1>
+    <app-breadcrumbs />
     <router-view />
   </div>
 </template>

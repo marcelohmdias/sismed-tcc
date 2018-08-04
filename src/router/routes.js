@@ -108,19 +108,81 @@ const records = {
       beforeEnter,
       path: '/prontuarios/pesquisa',
       name: 'ResearchRecords',
-      component: loadView('record/ResearchRecords')
+      component: loadView('record/ResearchRecords'),
+      meta: {
+        requiresAuth: true
+      },
+      props: {
+        breadcrumbs: [
+          {
+            text: 'page.record.title.root',
+            icon: 'clipboard-pulse'
+          },
+          {
+            text: 'globals.title.research'
+          }
+        ]
+      }
     },
     {
       beforeEnter,
       path: '/prontuarios/novo',
       name: 'RegisterRecords',
-      component: loadView('record/RegisterRecords')
+      component: loadView('record/RegisterRecords'),
+      meta: {
+        requiresAuth: true
+      },
+      props: {
+        breadcrumbs: [
+          {
+            text: 'page.record.title.root',
+            icon: 'clipboard-pulse'
+          },
+          {
+            text: 'globals.title.register'
+          }
+        ]
+      }
+    },
+    {
+      beforeEnter,
+      path: '/prontuarios/edicao/:id',
+      name: 'RegisterEdit',
+      component: loadView('record/RegisterRecords'),
+      meta: {
+        requiresAuth: true
+      },
+      props: {
+        breadcrumbs: [
+          {
+            text: 'page.record.title.root',
+            icon: 'clipboard-pulse'
+          },
+          {
+            text: 'globals.title.edit'
+          }
+        ]
+      }
     },
     {
       beforeEnter,
       path: '/prontuarios/exames',
       name: 'Exams',
-      component: loadView('record/Exams')
+      component: loadView('record/Exams'),
+      meta: {
+        requiresAuth: true
+      },
+      props: {
+        breadcrumbs: [
+          {
+            text: 'page.record.title.root',
+            icon: 'clipboard-pulse'
+          },
+          {
+            text: 'page.exam.title.root'
+          }
+        ]
+      }
     }
   ]
 }
