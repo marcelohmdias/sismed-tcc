@@ -77,7 +77,7 @@
               </template>
             </f-field>
           </v-flex>
-          <v-flex xs12 md8 lg3>
+          <v-flex xs12 sm6 md4 lg3>
             <f-field name="marital_status">
               <template slot-scope="props">
                 <app-select
@@ -90,7 +90,7 @@
               </template>
             </f-field>
           </v-flex>
-          <v-flex xs12 md8 lg3>
+          <v-flex xs12 sm6 md4 lg3>
             <f-field name="schooling">
               <template slot-scope="props">
                 <app-select
@@ -103,7 +103,7 @@
               </template>
             </f-field>
           </v-flex>
-          <v-flex xs12 md8 lg3>
+          <v-flex xs12 md4 lg3>
             <f-field name="occupation">
               <template slot-scope="props">
                 <v-text-field
@@ -129,7 +129,7 @@
               </template>
             </f-field>
           </v-flex>
-          <v-flex xs12 md8 lg3>
+          <v-flex xs12 md4 lg3>
             <f-field name="number_plan">
               <template slot-scope="props">
                 <v-text-field
@@ -142,7 +142,7 @@
               </template>
             </f-field>
           </v-flex>
-          <v-flex xs12 md8 lg6>
+          <v-flex xs12 md6 lg6>
             <f-field name="mother_name">
               <template slot-scope="props">
                 <v-text-field
@@ -155,7 +155,7 @@
               </template>
             </f-field>
           </v-flex>
-          <v-flex xs12 md8 lg6>
+          <v-flex xs12 md6 lg6>
             <f-field name="father_name">
               <template slot-scope="props">
                 <v-text-field
@@ -168,7 +168,7 @@
               </template>
             </f-field>
           </v-flex>
-          <v-flex xs12 md8 lg6>
+          <v-flex xs12 lg6>
             <f-field name="email">
               <template slot-scope="props">
                 <v-text-field
