@@ -41,7 +41,6 @@ const changePasswordAction = async ({ dispatch }, { email }) => {
 
     return user
   } catch (err) {
-    debugger
     const notify = {
       body: errorHandler(err.code),
       title: 'message.title.password',
@@ -74,7 +73,6 @@ const createUserAction = async ({ commit, dispatch }, { data = {} }) => {
 
     return user
   } catch (err) {
-    debugger
     const notify = {
       body: errorHandler(err.code),
       title: 'message.title.user',
@@ -158,7 +156,6 @@ const deleteuserAction = async ({ dispatch }, { user }) => {
 
     return user
   } catch (err) {
-    debugger
     const notify = {
       body: errorHandler(err.code),
       title: 'message.title.user_delete',

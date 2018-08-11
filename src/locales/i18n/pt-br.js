@@ -9,10 +9,28 @@ export default {
       fixed: 'Fixo',
       mobile: 'Celular'
     },
+    marital: {
+      not_married: 'Solteiro(a)',
+      married: 'Casado(a)',
+      divorced: 'Divorciado(a)',
+      widower: 'Viúvo(a)',
+      separated: 'Separado(a)'
+    },
     permission: {
       attendant: 'Atendente',
       doctor: 'Médico',
       manager: 'Gestor'
+    },
+    schooling: {
+      child_education: 'Educação Infantil',
+      elementary_school: 'Ensino Fundamental',
+      high_school: 'Ensino Médio',
+      technical_education: 'Ensino Técnico',
+      university_graduate: 'Ensino Superior',
+      postgraduate: 'Pós-Graduação / Especialização',
+      master_degree: 'Mestrado',
+      doctorate_degree: 'Doutorado',
+      post_doctoral: 'Pós-Doutorado'
     },
     sex: {
       female: 'Feminino',
@@ -143,9 +161,15 @@ export default {
     },
     patient: {
       form: {
+        father_name: 'Nome do Pai',
         health_plan: 'Plano de Saúde',
+        marital_status: 'Estado Civil',
+        mother_name: 'Nome da Mãe',
         note: 'Observações',
-        number_plan: 'Número do Plano'
+        number_plan: 'Número do Plano',
+        occupation: 'Ocupação',
+        rg: 'RG',
+        schooling: 'Escolaridade'
       },
       title: {
         root: 'Pacientes',

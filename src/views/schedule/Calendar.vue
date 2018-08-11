@@ -194,4 +194,13 @@ export default {
   .mobile-calendar .k-scheduler-views
     padding-top 7px !important
 
+@media (max-width: 1024px)
+  #app
+
+    .k-scheduler-views
+      z-index 100
+
+      .k-state-selected
+        border-bottom: 1px solid #2d527c !important
+
 </style>
