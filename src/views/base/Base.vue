@@ -13,7 +13,7 @@
         </v-avatar>
       </v-flex>
       <v-list dense>
-        <template v-for="item in menuLinks">
+        <template v-for="item in menuLinks" v-if="$acl.check(item.rule)">
           <v-list-group v-if="item.children" :key="item.name">
             <v-list-tile slot="activator">
               <v-list-tile-action>
@@ -27,6 +27,7 @@
               v-for="child in item.children"
               :to="{ name: child.name }"
               :key="child.name"
+              v-if="$acl.check(child.rule)"
             >
               <v-list-tile-action>
                 <v-icon :class="`mdi-${child.icon}`" class="mdi" />
@@ -102,8 +103,9 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import { removeUser } from '@/helpers/storage'
+import { mapActions, mapGetters } from 'vuex'
+import { removeUser, getUser, setUser } from '@/helpers/storage'
+import { permission as perm } from '@/helpers/enums'
 
 import menuLinks from './menuLinks'
 import logo from '@/assets/logo.svg'
@@ -111,6 +113,10 @@ import logo from '@/assets/logo.svg'
 const actions = mapActions({
   getUserEntity: 'profile/GET_DATA_USER',
   signoutUser: 'auth/SIGNOUT_USER'
+})
+
+const getters = mapGetters({
+  entity: 'profile/getEntity'
 })
 
 export default {
@@ -138,6 +144,8 @@ export default {
         this.$Progress.start()
         await this.signoutUser()
         this.unsubscribe()
+        this.$acl.change('disconnected')
+        setUser(null, 'disconnected')
         removeUser()
         setTimeout(() => this.$router.push({ name: 'Auth' }), 500)
       } catch (err) {
@@ -145,11 +153,25 @@ export default {
       }
     }
   },
+  computed: {
+    ...getters
+  },
+  watch: {
+    entity (value) {
+      const user = getUser()
+      const permission = perm.get(value.permission_type).toString()
+      setUser(user, permission)
+      this.$acl.change(permission)
+    }
+  },
   mounted () {
-    (async () => {
+    ;(async () => {
       const uid = this.$store.state.auth.user
       this.unsubscribe = await this.getUserEntity({ uid })
     })()
+  },
+  beforeDestroy () {
+    this.unsubscribe()
   }
 }
 </script>

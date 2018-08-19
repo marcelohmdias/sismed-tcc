@@ -34,7 +34,7 @@
             </template>
           </f-field>
         </v-flex>
-        <v-flex xs12>
+        <v-flex xs16>
           <f-field name="date" :formatter="dateFormatter">
             <template slot-scope="props">
               <app-date-picker
@@ -43,6 +43,23 @@
                 <v-text-field
                   :name="props.name"
                   :label="$t('page.schedule.form.date')"
+                  :value="props.value"
+                  type="text"
+                  readonly
+                />
+              </app-date-picker>
+            </template>
+          </f-field>
+        </v-flex>
+        <v-flex xs16>
+          <f-field name="time" :formatter="timeFormatter">
+            <template slot-scope="props">
+              <app-date-picker
+                :value="props.value"
+                v-on="props.events" is-time>
+                <v-text-field
+                  :name="props.name"
+                  :label="$t('page.schedule.form.time')"
                   :value="props.value"
                   type="text"
                   readonly
@@ -117,6 +134,9 @@ export default {
   methods: {
     dateFormatter () {
       return (value) => value ? date(value).format() : null
+    },
+    timeFormatter () {
+      return (value) => value || null
     },
     required: (...args) => required(...args),
     updateFormValue () {

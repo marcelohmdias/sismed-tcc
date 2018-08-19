@@ -15,7 +15,11 @@ export const beforeEach = function (to, from, next) {
 
   if (to.meta.progress !== undefined) progress.parseMeta(to.meta.progress)
 
-  if (to.name !== name && to.matched.some(checkAuth) && !getUser()) {
+  if (
+    to.name !== name &&
+    to.matched.some(checkAuth) &&
+    !getUser()
+  ) {
     return next({ name })
   }
 

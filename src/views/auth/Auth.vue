@@ -31,6 +31,9 @@ export default {
   },
   methods: {
     ...actions
+  },
+  mounted () {
+    this.$acl.change('disconnected')
   }
 }
 </script>

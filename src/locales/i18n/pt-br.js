@@ -9,6 +9,12 @@ export default {
       fixed: 'Fixo',
       mobile: 'Celular'
     },
+    exam: {
+      canceled: 'Cancelado',
+      marked: 'Marcado',
+      fulfilled: 'Realizado',
+      delivered: 'Entregue'
+    },
     marital: {
       not_married: 'Solteiro(a)',
       married: 'Casado(a)',
@@ -235,7 +241,35 @@ export default {
       }
     },
     record: {
+      button: {
+        generate: 'Gerar Prontuário'
+      },
+      form: {
+        anamnesis: 'Anamnese',
+        diagnostic: 'Diagnóstico',
+        exam: 'Exame',
+        dosage: 'Posologia',
+        manufacturer: 'Fabricante',
+        generic_name: 'Nome Genérico',
+        factory_name: 'Nome de Fábrica'
+      },
+      tab: {
+        calls: 'Atendimentos',
+        exams: 'Exames',
+        medicines: 'Receituário'
+      },
+      table: {
+        date: 'Data',
+        diagnostic: 'Resumo do Diagnóstico',
+        doctor: 'Médico',
+        exam: 'Exame',
+        medicine: 'Medicamento',
+        status: 'Situação'
+      },
       title: {
+        attendance_form: 'Cadastro de Atendimento',
+        exam_form: 'Cadastro de Exames',
+        medicine_form: 'Cadastro de Medicamentos',
         root: 'Prontuários'
       }
     },
@@ -244,7 +278,8 @@ export default {
       form: {
         date: 'Data',
         doctor: 'Médico',
-        patient: 'Paciente'
+        patient: 'Paciente',
+        time: 'Hora'
       }
     },
     user: {

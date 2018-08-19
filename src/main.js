@@ -8,6 +8,7 @@ import '@progress/kendo-ui/css/web/kendo.material.css'
 import '@progress/kendo-ui/css/mobile/kendo.mobile.material.css'
 
 // Modules
+import acl from './router/acl'
 import i18n from './locales'
 import router from './router'
 import store from './store'
@@ -38,7 +39,7 @@ connect()
 
 const render = h => h(App)
 
-const app = new Vue({ i18n, router, store, render })
+const app = new Vue({ acl, i18n, router, store, render })
 
 onAuthChanged((data = {}) => {
   const user = (data || {}).uid || null

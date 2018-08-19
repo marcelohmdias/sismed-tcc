@@ -6,14 +6,19 @@ const getItem = () => parse(window.sessionStorage.getItem('CURRENT_USER'))
 
 const isAuth = (type) => /^auth/g.test(type)
 
-const setItem = ({ user }) => {
-  window.sessionStorage.setItem('CURRENT_USER', stringify({ user }))
+const setItem = ({ permission, user }) => {
+  window.sessionStorage.setItem('CURRENT_USER', stringify({ permission, user }))
   return user
 }
 
-export const setUser = (user = null) => setItem({ user })
+export const setUser = (user = null, permission = null) => {
+  return setItem({ permission, user })
+}
 
-export const getUser = () => setUser((getItem() || {}).user || null)
+export const getUser = () => {
+  const { permission, user } = getItem() || {}
+  return setUser(user, permission)
+}
 
 export const plugin = (store) => store.subscribe(
   (mutation, state) => isAuth(mutation.type) && setUser(state.auth.user)

@@ -1,13 +1,17 @@
+import { AclRule } from 'vue-acl'
 import { beforeEnter } from './event'
 
 const loadView = (path) => () => {
   return import(/* webpackChunkName: "view-[request]" */ `@/views/${path}.vue`)
 }
 
+const isPublic = new AclRule('attendant').or('doctor').or('manager').generate()
+
 const home = {
   beforeEnter,
   component: loadView('home/Home'),
   meta: {
+    rule: isPublic,
     requiresAuth: true
   },
   name: 'Home',
@@ -18,6 +22,7 @@ const profile = {
   beforeEnter,
   component: loadView('profile/Profile'),
   meta: {
+    rule: isPublic,
     requiresAuth: true
   },
   path: '/perfil',
@@ -28,7 +33,11 @@ const schedule = {
   beforeEnter,
   component: loadView('schedule/Schedule'),
   path: '/agenda',
-  name: 'Schedule'
+  name: 'Schedule',
+  meta: {
+    rule: isPublic,
+    requiresAuth: true
+  }
 }
 
 const patients = {
@@ -42,6 +51,7 @@ const patients = {
       name: 'ResearchPatients',
       component: loadView('patient/ResearchPatients'),
       meta: {
+        rule: isPublic,
         requiresAuth: true
       },
       props: {
@@ -62,6 +72,7 @@ const patients = {
       name: 'RegisterPatients',
       component: loadView('patient/RegisterPatients'),
       meta: {
+        rule: isPublic,
         requiresAuth: true
       },
       props: {
@@ -82,6 +93,7 @@ const patients = {
       name: 'EditPatients',
       component: loadView('patient/RegisterPatients'),
       meta: {
+        rule: isPublic,
         requiresAuth: true
       },
       props: {
@@ -110,6 +122,7 @@ const records = {
       name: 'ResearchRecords',
       component: loadView('record/ResearchRecords'),
       meta: {
+        rule: isPublic,
         requiresAuth: true
       },
       props: {
@@ -126,30 +139,11 @@ const records = {
     },
     {
       beforeEnter,
-      path: '/prontuarios/novo',
+      path: '/prontuarios/edicao/:id',
       name: 'RegisterRecords',
       component: loadView('record/RegisterRecords'),
       meta: {
-        requiresAuth: true
-      },
-      props: {
-        breadcrumbs: [
-          {
-            text: 'page.record.title.root',
-            icon: 'clipboard-pulse'
-          },
-          {
-            text: 'globals.title.register'
-          }
-        ]
-      }
-    },
-    {
-      beforeEnter,
-      path: '/prontuarios/edicao/:id',
-      name: 'RegisterEdit',
-      component: loadView('record/RegisterRecords'),
-      meta: {
+        rule: isPublic,
         requiresAuth: true
       },
       props: {
@@ -170,6 +164,7 @@ const records = {
       name: 'Exams',
       component: loadView('record/Exams'),
       meta: {
+        rule: isPublic,
         requiresAuth: true
       },
       props: {
@@ -199,6 +194,7 @@ const users = {
       name: 'ResearchUsers',
       component: loadView('user/research/ResearchUsers'),
       meta: {
+        rule: isPublic,
         requiresAuth: true
       },
       props: {
@@ -219,6 +215,7 @@ const users = {
       name: 'RegisterUsers',
       component: loadView('user/create/RegisterUsers'),
       meta: {
+        rule: isPublic,
         requiresAuth: true
       },
       props: {
@@ -239,6 +236,7 @@ const users = {
       name: 'EditUsers',
       component: loadView('user/edit/EditUsers'),
       meta: {
+        rule: isPublic,
         requiresAuth: true
       },
       props: {
@@ -268,6 +266,7 @@ const medical = {
       name: 'MedicalResearch',
       component: loadView('medical/MedicalResearch'),
       meta: {
+        rule: isPublic,
         requiresAuth: true
       },
       props: {
@@ -288,6 +287,7 @@ const medical = {
       name: 'RegisterMedicals',
       component: loadView('medical/RegisterMedicals'),
       meta: {
+        rule: new AclRule('manager').generate(),
         requiresAuth: true
       },
       props: {
@@ -308,6 +308,7 @@ const medical = {
       name: 'EditMedicals',
       component: loadView('medical/RegisterMedicals'),
       meta: {
+        rule: new AclRule('manager').generate(),
         requiresAuth: true
       },
       props: {
@@ -325,31 +326,43 @@ const medical = {
   ]
 }
 
+const children = [
+  home,
+  profile,
+  schedule,
+  patients,
+  records,
+  users,
+  medical
+]
+
 export default [
   {
     component: loadView('auth/Auth'),
     name: 'Auth',
-    path: '/login'
+    path: '/login',
+    meta: {
+      rule: new AclRule('disconnected').generate()
+    }
   },
   {
     component: loadView('auth/ChangePassword'),
     name: 'ResetPassword',
-    path: '/troca-senha'
+    path: '/troca-senha',
+    meta: {
+      rule: new AclRule('disconnected').generate()
+    }
   },
   {
+    children,
     component: loadView('base/Base'),
-    children: [
-      home,
-      profile,
-      schedule,
-      patients,
-      records,
-      users,
-      medical
-    ],
     name: 'Base',
     path: '/',
-    redirect: '/inicio'
+    redirect: '/inicio',
+    meta: {
+      rule: isPublic,
+      requiresAuth: true
+    }
   },
   {
     path: '*',

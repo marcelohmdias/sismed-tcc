@@ -9,13 +9,30 @@
       persistent
     >
       <slot slot="activator" />
+      <v-time-picker
+        :value="parsedTime"
+        :allowed-minutes="allowedStep"
+        class="datepicker__custom"
+        format="24hr"
+        @input="changeTime"
+        v-if="isTime"
+      >
+        <v-spacer/>
+        <v-btn
+          v-t="'globals.button.close'"
+          color="primary"
+          flat
+          @click="close"
+        />
+      </v-time-picker>
       <v-date-picker
-        :value="parsedValue"
+        :value="parsedDate"
         class="datepicker__custom"
         locale="pt-br"
         reactive
         scrollable
-        @change="changeDate"
+        @input="changeDate"
+        v-else
       >
         <v-spacer/>
         <v-btn
@@ -35,21 +52,33 @@ import Typed from '@/modules/typed'
 export default {
   name: 'AppDatePicker',
   props: {
-    value: Typed.is.str.define
+    value: Typed.is.str.define,
+    isTime: Typed.is.bool.define
   },
   data: () => ({ opened: false }),
   computed: {
-    parsedValue () {
+    parsedDate () {
       if (!this.value) return null
       const date = this.value.split('/')
       return `${date[2]}-${date[1]}-${date[0]}`
+    },
+    parsedTime () {
+      if (!this.value) return null
+      return this.value
     }
   },
   methods: {
+    allowedStep (value) {
+      return value % 30 === 0
+    },
     changeDate (value) {
       const data = value.split('-')
       const date = new Date(data[0], data[1] - 1, data[2])
       this.$listeners.input(date.getTime())
+      this.close()
+    },
+    changeTime (value) {
+      this.$listeners.input(value)
       this.close()
     },
     close () {

@@ -54,15 +54,21 @@
     </v-container>
     <v-card-actions>
       <v-container class="pt-0 px-2 pb-2" grid-list-lg>
-        <v-layout>
+        <v-layout row wrap>
           <v-flex xs12 sm4 md3 lg2>
             <v-btn color="secondary" block>
               <app-icon name="content-save" request />
               <span v-t="'globals.button.save'" />
             </v-btn>
           </v-flex>
+          <v-flex xs12 sm4 md4 lg3>
+            <v-btn color="secondary" block>
+              <app-icon name="file-document-outline" />
+              <span v-t="'page.record.button.generate'" />
+            </v-btn>
+          </v-flex>
           <v-flex xs12 sm4 md3 lg2>
-            <v-btn color="secondary" :to="{ name: 'ResearchPatients' }"  block>
+            <v-btn color="secondary" :to="{ name: 'ResearchPatients' }" block>
               <app-icon name="subdirectory-arrow-left" />
               <span v-t="'globals.button.come_back'" />
             </v-btn>

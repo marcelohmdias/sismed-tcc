@@ -67,6 +67,7 @@ export default {
       try {
         this.$Progress.start()
         await this.signinUser({ email, password })
+        this.$acl.change('attendant')
         setTimeout(() => this.$router.push({ name: 'Home' }), 300)
       } catch (err) {
         this.$Progress.fail()

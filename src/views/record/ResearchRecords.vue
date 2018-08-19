@@ -25,12 +25,6 @@
           </v-layout>
         </v-container>
       </v-card-text>
-      <v-card-actions class="px-3 pb-3 pt-0">
-        <v-btn color="secondary" :to="{ name: 'RegisterRecords' }">
-          <app-icon name="plus-circle" />
-          <span v-t="'globals.button.new'" />
-        </v-btn>
-      </v-card-actions>
     </v-card>
   </div>
 </template>
