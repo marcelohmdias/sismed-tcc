@@ -266,7 +266,7 @@ const medical = {
       name: 'MedicalResearch',
       component: loadView('medical/MedicalResearch'),
       meta: {
-        rule: isPublic,
+        rule: new AclRule('manager').generate(),
         requiresAuth: true
       },
       props: {

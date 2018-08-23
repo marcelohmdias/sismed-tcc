@@ -2,11 +2,15 @@
   <v-card>
     <v-container grid-list-lg>
       <f-form name="RegisterMedicalForm" :submit="submitHandler">
-        <app-register-medicals-form  slot-scope="props" :form="props" />
+        <app-register-medicals-form
+          slot-scope="props"
+          :form="props"
+          :entity="entity"
+        />
       </f-form>
     </v-container>
 
-    <v-container grid-list-lg>
+    <v-container grid-list-lg v-if="entity._id">
       <v-layout row wrap>
         <v-flex xs12>
           <v-card>
@@ -19,31 +23,40 @@
                   <v-flex xs12>
                     <app-data-table
                       :headers="headers"
-                      :items="items"
+                      :items="entity.specialities"
+                      :filters="filters"
                       :order="order"
+                      :edit="editEntity"
+                      :remove="removeEntity"
                     />
                   </v-flex>
                 </v-layout>
               </v-container>
             </v-card-text>
             <v-card-actions class="px-3 pb-3 pt-0">
-              <v-btn color="secondary" @click="opened = true">
+              <v-btn color="secondary" @click="openedDialog">
                 <app-icon name="plus-circle" />
                 <span v-t="'globals.button.new'" />
               </v-btn>
-              <v-dialog v-model="opened" max-width="500" persistent>
+              <v-dialog v-model="opened" max-width="500">
                 <v-card>
                   <v-card-title
                     class="title"
                     v-t="'page.medical.title.speciality'"
                   />
                   <v-card-text>
-                    <f-form name="SpecialityForm" :submit="submitHandler">
-                      <app-speciality-form  slot-scope="props" :form="props" />
+                    <f-form name="SpecialityForm" :submit="submitDialogHandler">
+                      <app-speciality-form
+                        slot-scope="props"
+                        :form="props"
+                        :opened="opened"
+                        :entity="dialogEntity"
+                      />
                     </f-form>
                   </v-card-text>
                   <v-card-actions>
                     <v-btn
+                      :disabled="formIsDisabled('SpecialityForm')"
                       v-t="'globals.button.save'"
                       type="submit"
                       form="SpecialityForm"
@@ -71,7 +84,10 @@
         <v-layout>
           <v-flex xs12 sm4 md3 lg2>
             <v-btn
+              :disabled="formIsDisabled('RegisterMedicalForm')"
+              form="RegisterMedicalForm"
               color="secondary"
+              type="submit"
               block
             >
               <app-icon name="content-save" request />
@@ -79,7 +95,7 @@
             </v-btn>
           </v-flex>
           <v-flex xs12 sm4 md3 lg2>
-            <v-btn color="secondary" :to="{ name: 'MedicalResearch' }"  block>
+            <v-btn color="secondary" :to="{ name: 'MedicalResearch' }" @click="resetId" block>
               <app-icon name="subdirectory-arrow-left" />
               <span v-t="'globals.button.come_back'" />
             </v-btn>
@@ -91,11 +107,25 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
 import PageRules from '@/mixins/PageRules'
 import FormRules from '@/mixins/FormRules'
+import { date } from '@/helpers/formatters'
 
 import AppRegisterMedicalsForm from './RegisterMedicalsForm'
 import AppSpecialityForm from './SpecialityForm'
+
+const actions = mapActions({
+  getId: 'medical/GET_ID',
+  resetId: 'medical/RESET_ID',
+  saveDoctor: 'medical/SAVE',
+  saveSpecialities: 'medical/SAVE_SPECIALITIES',
+  deleteSpecialities: 'medical/DELETE_SPECIALITIES'
+})
+
+const state = mapState({
+  entity: (state) => state.medical.data
+})
 
 export default {
   name: 'AppRegisterMedical',
@@ -108,39 +138,140 @@ export default {
       complement: 'Cadastro de Médicos'
     }
   },
-  data: () => ({
-    opened: false,
-    items: [],
-    headers: [
-      {
-        text: 'page.profile.table.address.actions',
-        sortable: false
+  data () {
+    return {
+      opened: false,
+      dialogEntity: {},
+      filters: {
+        date: this.formatDate
       },
-      {
-        text: 'page.medical.table.speciality',
-        value: 'speciality'
-      },
-      {
-        text: 'page.medical.table.registry',
-        value: 'registry'
-      },
-      {
-        text: 'page.medical.table.date',
-        value: 'date'
-      }
-    ],
-    order: [
-      'speciality',
-      'registry',
-      'date'
-    ]
-  }),
+      headers: [
+        {
+          text: 'page.profile.table.address.actions',
+          sortable: false
+        },
+        {
+          text: 'page.medical.table.speciality',
+          value: 'speciality'
+        },
+        {
+          text: 'page.medical.table.registry',
+          value: 'registry'
+        },
+        {
+          text: 'page.medical.table.date',
+          value: 'date'
+        }
+      ],
+      order: [
+        'speciality',
+        'registry',
+        'date'
+      ]
+    }
+  },
+  computed: { ...state },
   methods: {
-    async submitHandler () {}
+    ...actions,
+
+    formatDate (value) {
+      return value
+        ? date(value.toMillis()).format()
+        : null
+    },
+
+    async submitHandler (state, form) {
+      try {
+        this.$Progress.start()
+        const { _id } = state
+
+        const data = {
+          'full_name': state.full_name,
+          cpf: state.cpf,
+          registry: state.registry,
+          status: state.status
+        }
+
+        const id = await this.saveDoctor({ ref: _id, data })
+
+        if (!_id) {
+          setTimeout(() => {
+            this.$router.push({
+              name: 'EditMedicals',
+              params: { id }
+            })
+          }, 300)
+        }
+      } catch (err) {
+        this.$Progress.fail()
+      } finally {
+        this.$Progress.finish()
+      }
+    },
+
+    async submitDialogHandler (state, form) {
+      try {
+        this.$Progress.start()
+        const { _id } = state
+
+        const data = {
+          speciality: state.speciality,
+          registry: state.registry
+        }
+
+        if (state.date) data.date = new Date(state.date)
+
+        const ref = this.entity._id
+
+        await this.saveSpecialities({ ref, _id, data })
+        this.opened = false
+      } catch (err) {
+        this.$Progress.fail()
+      } finally {
+        this.$Progress.finish()
+      }
+    },
+
+    editEntity (value) {
+      this.dialogEntity = value
+      this.opened = true
+    },
+
+    openedDialog () {
+      this.dialogEntity = {}
+      this.opened = true
+    },
+
+    removeEntity ({ _id }) {
+      try {
+        this.$Progress.start()
+        const ref = this.entity._id
+
+        this.deleteSpecialities({ _id, ref })
+      } catch (error) {
+        this.$Progress.fail()
+      } finally {
+        this.$Progress.finish()
+      }
+    }
+  },
+
+  created () {
+    this.resetId()
+  },
+
+  mounted () {
+    (async (ctx) => {
+      const { id } = ctx.$route.params
+
+      if (!id) return
+
+      ctx.unsubscribe = await ctx.getId({ id })
+    })(this)
+  },
+  beforeDestroy () {
+    this.resetId()
+    this.unsubscribe && this.unsubscribe()
   }
 }
 </script>
-
-<style lang="stylus" scoped>
-
-</style>

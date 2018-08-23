@@ -320,13 +320,24 @@ export default {
         edit: 'Edição de Contato',
         delete: 'Remoção de Contato'
       },
+      doctor: {
+        new: 'Cadastro de Médico',
+        edit: 'Edição de Médico',
+        delete: 'Remoção de Médico'
+      },
+      speciality: {
+        new: 'Cadastro de Especialidades',
+        edit: 'Edição de Especialidades',
+        delete: 'Remoção de Especialidades'
+      },
       recovery: 'Recuperação de Senha',
       reset_password: 'Troca de Senha',
       search: 'Consulta de Registros',
       signin: 'Bem Vindo ao SISMed',
       signout: 'SISMed App',
       user: 'Tela de Usuário',
-      user_delete: 'Deleção de Usuário'
+      user_delete: 'Deleção de Usuário',
+      entity_delete: 'Deleção de Registro'
     },
     success: {
       email_changed: 'Um e-mail para troca de senha foi enviado para o usuário.',
@@ -352,6 +363,7 @@ export default {
     required: {
       city: 'O campo "Cidade" é obrigatório.',
       cpf: 'O campo "CPF" é obrigatório.',
+      registry: 'O campo "Registro" é obrigatório.',
       date_birth: 'O campo "Data de Nascimento" é obrigatório.',
       default: 'Este campo é obrigatório.',
       full_name: 'O campo "Nome Completo" é obrigatório.',

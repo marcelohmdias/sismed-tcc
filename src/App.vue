@@ -2,7 +2,7 @@
   <v-app>
     <vue-progress-bar />
     <app-notify />
-    <router-view/>
+    <router-view :key="$route.name" />
   </v-app>
 </template>
 

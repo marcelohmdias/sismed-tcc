@@ -35,6 +35,7 @@
       <v-card-actions class="px-3 pb-3 pt-0">
         <v-btn
           :to="{ name: 'RegisterUsers' }"
+          @click="resetId"
           color="secondary"
         >
           <app-icon name="plus-circle" />
@@ -56,7 +57,8 @@ import enums from '@/helpers/enums'
 const actions = mapActions({
   deleteUser: 'users/DELETE_USER',
   getUserList: 'users/GET_USER_LIST',
-  reset: 'users/RESET_USER_LIST'
+  reset: 'users/RESET_USER_LIST',
+  resetId: 'medical/RESET_ID'
 })
 
 const states = mapState({
@@ -140,6 +142,7 @@ export default {
     },
 
     editEntity (entity) {
+      this.resetId()
       this.$router.push({
         name: 'EditUsers',
         params: { id: entity._id }
@@ -173,6 +176,9 @@ export default {
     formatStatus (value) {
       return this.$t(`enums.status.${enums.status.get(value).key}`)
     }
+  },
+  mounted () {
+    this.resetId()
   }
 }
 

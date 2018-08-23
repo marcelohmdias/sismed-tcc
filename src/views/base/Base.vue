@@ -91,7 +91,7 @@
     <v-content>
       <v-container fluid fill-height>
         <v-flex xs12>
-          <router-view />
+          <router-view :key="$route.base" />
         </v-flex>
       </v-container>
     </v-content>

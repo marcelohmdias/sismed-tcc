@@ -6,11 +6,15 @@
   >
     <v-layout row wrap>
       <v-flex xs12 sm12 md8 lg6>
-        <f-field name="full_name">
+        <f-field
+          name="full_name"
+          :validate="validate('error.required.full_name', required)"
+        >
           <template slot-scope="props">
             <v-text-field
               :name="props.name"
               :label="$t('page.profile.form.full_name')"
+              :rules="checkError(props.meta)"
               :value="props.value"
               v-on="props.events"
               type="text"
@@ -20,11 +24,15 @@
         </f-field>
       </v-flex>
       <v-flex xs12 sm6 md4 lg3>
-        <f-field name="cpf">
+        <f-field
+          name="cpf"
+          :validate="validate('error.required.cpf', required)"
+        >
           <template slot-scope="props">
             <v-text-field
               :name="props.name"
               :label="$t('page.profile.form.cpf')"
+              :rules="checkError(props.meta)"
               :value="props.value"
               v-on="props.events"
               type="tel"
@@ -34,11 +42,15 @@
         </f-field>
       </v-flex>
       <v-flex xs12 sm6 md4 lg3>
-        <f-field name="registry">
+        <f-field
+          name="registry"
+          :validate="validate('error.required.registry', required)"
+        >
           <template slot-scope="props">
             <v-text-field
               :name="props.name"
               :label="$t('page.medical.form.registry')"
+              :rules="checkError(props.meta)"
               :value="props.value"
               v-on="props.events"
               type="text"
@@ -64,6 +76,8 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
+
 import Typed from '@/modules/typed'
 import FieldRules from '@/mixins/FieldRules'
 
@@ -72,6 +86,7 @@ export default {
   mixins: [ FieldRules ],
   inject: [ 'formConfig' ],
   props: {
+    entity: Typed.is.obj.define,
     form: Typed.is.obj.define
   },
   data () {
@@ -81,10 +96,30 @@ export default {
         { text: 'enums.status.active', value: 1 }
       ]
     }
+  },
+  methods: {
+
+    required: (...args) => required(...args),
+
+    updateFormValue () {
+      if (this.entity._id) {
+        return this.formConfig.initialize({
+          ...this.entity
+        })
+      }
+
+      return this.formConfig.initialize({
+        ...this.entity,
+        status: 1
+      })
+    }
+
+  },
+  watch: {
+    entity: {
+      handler: 'updateFormValue',
+      immediate: true
+    }
   }
 }
 </script>
-
-<style>
-
-</style>

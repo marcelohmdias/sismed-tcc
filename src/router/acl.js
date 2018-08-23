@@ -5,7 +5,7 @@ import router from './index'
 
 Vue.use(AclInstaller)
 
-const { permission } = JSON.parse(window.sessionStorage.getItem('CURRENT_USER'))
+const { permission } = JSON.parse(window.sessionStorage.getItem('CURRENT_USER')) || {}
 
 export default new AclCreate({
   initial: permission || 'disconnected',

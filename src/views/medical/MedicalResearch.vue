@@ -1,12 +1,12 @@
 <template>
   <div>
     <v-card class="mb-4" width="100%">
-      <f-form :submit="searchUser" name="ResearchUserForm">
+      <f-form :submit="searchUser" name="ResearchMedicalForm">
         <app-medical-research-form
           slot-scope="props"
           :form="props"
           @clean="reset"
-          ref="ResearchUserForm"
+          ref="ResearchMedicalForm"
         />
       </f-form>
     </v-card>
@@ -20,6 +20,8 @@
                 :headers="headers"
                 :items="items"
                 :order="order"
+                :edit="editEntity"
+                :remove="removeEntity"
               />
             </v-flex>
           </v-layout>
@@ -36,8 +38,20 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+
 import PageRules from '@/mixins/PageRules'
 import AppMedicalResearchForm from './MedicalResearchForm'
+
+const actions = mapActions({
+  getList: 'medical/GET_LIST',
+  reset: 'medical/RESET_LIST',
+  deleteRef: 'medical/DELETE'
+})
+
+const state = mapState({
+  items: (state) => state.medical.list
+})
 
 export default {
   name: 'AppMedicalResearch',
@@ -51,7 +65,6 @@ export default {
     }
   },
   data: () => ({
-    items: [],
     headers: [
       {
         text: 'page.profile.table.address.actions',
@@ -81,10 +94,46 @@ export default {
       'status'
     ]
   }),
+  computed: {
+    ...state
+  },
   methods: {
-    async searchUser (state, form) {},
+    ...actions,
+    editEntity (entity) {
+      this.$router.push({
+        name: 'EditMedicals',
+        params: { id: entity._id }
+      })
+    },
 
-    reset () {}
+    async searchUser (state, form) {
+      try {
+        this.$Progress.start()
+
+        const data = Object.keys(state).reduce((data, key) => {
+          if (!state[key]) return data
+          return { ...data, [key]: state[key] }
+        }, {})
+
+        this.getList({ data })
+      } catch (err) {
+        this.$Progress.fail()
+      } finally {
+        this.$Progress.finish()
+      }
+    },
+
+    async removeEntity (state) {
+      try {
+        this.$Progress.start()
+        await this.deleteRef({ ref: state._id })
+        this.$refs.ResearchMedicalForm.form.methods.submit()
+      } catch (error) {
+        this.$Progress.fail()
+      } finally {
+        this.$Progress.finish()
+      }
+    }
   }
 }
 </script>

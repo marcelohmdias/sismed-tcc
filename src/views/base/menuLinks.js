@@ -74,19 +74,19 @@ export default [
   {
     icon: 'medical-bag',
     name: 'Medical',
-    rule: 'public',
+    rule: 'manager',
     title: 'globals.menu.medical',
     children: [
       {
         icon: 'magnify',
         name: 'MedicalResearch',
-        rule: 'public',
+        rule: 'manager',
         title: 'globals.menu.research'
       },
       {
         icon: 'clipboard-account',
         name: 'RegisterMedicals',
-        rule: 'public',
+        rule: 'manager',
         title: 'globals.menu.register'
       }
     ]
