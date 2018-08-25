@@ -170,10 +170,12 @@ export default {
     },
 
     formatPermission (value) {
+      if (!value) return value
       return this.$t(`enums.permission.${enums.permission.get(value).key}`)
     },
 
     formatStatus (value) {
+      if (!value) return value
       return this.$t(`enums.status.${enums.status.get(value).key}`)
     }
   },

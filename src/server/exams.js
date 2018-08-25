@@ -2,6 +2,8 @@ import { db } from '@/helpers/firebase'
 
 const examRef = () => db().collection('exams')
 
+// const examTypeRef = () => db().collection('exams_types')
+
 export const getList = async (state) => {
   const request = Object
     .keys(state)

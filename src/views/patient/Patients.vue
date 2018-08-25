@@ -1,7 +1,7 @@
 <template>
   <div>
     <app-breadcrumbs />
-    <router-view />
+    <router-view :key="$route.name" />
   </div>
 </template>
 

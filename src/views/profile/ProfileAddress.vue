@@ -144,12 +144,15 @@ export default {
       return value.replace(/(\d{2})(\d{3})(\d+)/g, '$1.$2-$3')
     },
     formatStatus (value) {
+      if (!value) return value
       return this.$t(`enums.status.${enums.status.get(value).key}`)
     },
     formatType (value) {
+      if (!value) return value
       return this.$t(`enums.address.${enums.address.get(value).key}`)
     },
     formatState (value) {
+      if (!value) return value
       return this.$t(`enums.state.${enums.state.get(value).key}`)
     }
   }

@@ -242,6 +242,7 @@ export default {
     },
     record: {
       button: {
+        access: 'Abrir Prontuário',
         generate: 'Gerar Prontuário'
       },
       form: {
@@ -325,6 +326,16 @@ export default {
         edit: 'Edição de Médico',
         delete: 'Remoção de Médico'
       },
+      patient: {
+        new: 'Cadastro de Pacientes',
+        edit: 'Edição de Pacientes',
+        delete: 'Remoção de Pacientes'
+      },
+      record: {
+        new: 'Cadastro de Prontuário',
+        edit: 'Edição de Prontuário',
+        delete: 'Remoção de Prontuário'
+      },
       speciality: {
         new: 'Cadastro de Especialidades',
         edit: 'Edição de Especialidades',
@@ -367,10 +378,13 @@ export default {
       date_birth: 'O campo "Data de Nascimento" é obrigatório.',
       default: 'Este campo é obrigatório.',
       full_name: 'O campo "Nome Completo" é obrigatório.',
+      marital_status: 'O campo "Estado Civil" é obrigatório.',
+      mother_name: 'O campo "Nome da Mãe" é obrigatório.',
       neighborhood: 'O campo "Bairro" é obrigatório.',
       number: 'O campo "Número" é obrigatório.',
       number_phone: 'O campo "Número" é obrigatório.',
       public_place: 'O campo "Logradouro" é obrigatório.',
+      schooling: 'O campo "Escolaridade" é obrigatório.',
       sex: 'O campo "Sexo" é obrigatório.',
       state: 'O campo "Estado" é obrigatório.',
       status: 'O campo "Situação" é obrigatório.',

@@ -17,6 +17,11 @@ export const permission = new Enum({
   manager: 3
 })
 
+export const sex = new Enum({
+  female: 1,
+  male: 2
+})
+
 export const state = new Enum({
   AC: 1,
   AL: 2,
@@ -56,6 +61,7 @@ export default {
   address,
   contact,
   permission,
+  sex,
   state,
   status
 }

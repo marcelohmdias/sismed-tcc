@@ -4,8 +4,14 @@ export const SAVE_ADDRESS = 'SAVE_ADDRESS'
 export const DELETE_ADDRESS = 'DELETE_ADDRESS'
 export const SAVE_CONTACT = 'SAVE_CONTACT'
 export const DELETE_CONTACT = 'DELETE_CONTACT'
-export const GET_PATIENT_DATA = 'GET_PATIENT_DATA'
-export const RESET_PATIENT_DATA = 'RESET_PATIENT_DATA'
+export const GET_ID = 'GET_ID'
+export const GET_LIST = 'GET_LIST'
+export const RESET_ID = 'RESET_ID'
+export const RESET_LIST = 'RESET_LIST'
+export const SAVE = 'SAVE'
+export const CREATE = 'CREATE'
+export const DELETE = 'DELETE'
+export const GENERATE_RECORD = 'GENERATE_RECORD'
 
 export default {
   ADDRESS_DIALOG,
@@ -14,6 +20,12 @@ export default {
   SAVE_ADDRESS,
   DELETE_CONTACT,
   SAVE_CONTACT,
-  GET_PATIENT_DATA,
-  RESET_PATIENT_DATA
+  GET_ID,
+  GET_LIST,
+  RESET_ID,
+  RESET_LIST,
+  SAVE,
+  CREATE,
+  DELETE,
+  GENERATE_RECORD
 }

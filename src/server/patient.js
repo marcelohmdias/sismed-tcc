@@ -64,16 +64,24 @@ export const getByid = async (id, fn) => {
   }
 }
 
-export const createPatient = (data) => {
-  return patientRef().add(data)
+export const createPatient = async (data) => {
+  data.registred_at = new Date()
+  data.registred_at.setHours(0)
+  data.registred_at.setMinutes(0)
+  data.registred_at.setSeconds(0)
+  data.registred_at.setMilliseconds(0)
+  const result = await patientRef().add(data)
+  return result.id
 }
 
-export const savePatient = (ref, data) => {
+export const savePatient = async (ref, data) => {
   return patientRef().doc(ref).update(data)
 }
 
 export const deletePatient = async (ref) => {
   const data = await patientRef().doc(ref)
+
+  // TODO: Adicionar exculsão de prontuário
 
   const addressesRef = await data.collection('addresses').get()
   addressesRef.forEach(async (item) => {
@@ -88,9 +96,9 @@ export const deletePatient = async (ref) => {
   return data.delete()
 }
 
-export const addAddress = (id, data) => {
+export const addAddress = (ref, data) => {
   return patientRef()
-    .doc(id)
+    .doc(ref)
     .collection('addresses')
     .add(data)
 }

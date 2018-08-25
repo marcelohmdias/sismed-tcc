@@ -61,7 +61,7 @@ const getListAction = async ({ commit, dispatch }, { data = {} }) => {
     dispatch('notify/ADD', notify, { root: true })
   } catch (err) {
     const notify = {
-      body: 'message.user.insert',
+      body: 'message.error.internal_error',
       title: 'message.title.search',
       type: 'error'
     }

@@ -41,7 +41,7 @@
                       </f-field>
                     </v-flex>
                     <v-flex xs12 sm4 md3 lg2>
-                      <f-field name="date_birth">
+                      <f-field name="date_birth" :formatter="dateFormatter">
                         <template slot-scope="props">
                           <app-date-picker
                             :value="props.value"
@@ -81,6 +81,8 @@
 <script>
 import Typed from '@/modules/typed'
 
+import { date } from '@/helpers/formatters'
+
 export default {
   name: 'ResearchPatientsForm',
   props: {
@@ -90,6 +92,9 @@ export default {
     clean () {
       this.form.methods.reset()
       this.$emit('clean')
+    },
+    dateFormatter () {
+      return (value) => value ? date(value).format() : null
     }
   }
 }

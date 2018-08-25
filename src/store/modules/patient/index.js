@@ -10,7 +10,8 @@ const state = {
     contacts: []
   },
   dialogAddress: false,
-  dialogContact: false
+  dialogContact: false,
+  list: []
 }
 
 export default {

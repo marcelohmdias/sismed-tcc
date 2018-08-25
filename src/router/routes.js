@@ -44,6 +44,10 @@ const patients = {
   path: '/pacientes',
   name: 'Patients',
   component: loadView('patient/Patients'),
+  meta: {
+    rule: isPublic,
+    requiresAuth: true
+  },
   children: [
     {
       beforeEnter,
@@ -115,6 +119,10 @@ const records = {
   path: '/prontuarios',
   name: 'Records',
   component: loadView('record/Records'),
+  meta: {
+    rule: isPublic,
+    requiresAuth: true
+  },
   children: [
     {
       beforeEnter,
@@ -187,6 +195,10 @@ const users = {
   name: 'Users',
   component: loadView('user/Users'),
   redirect: '/usuarios/pesquisa',
+  meta: {
+    rule: new AclRule('manager').generate(),
+    requiresAuth: true
+  },
   children: [
     {
       beforeEnter,
@@ -194,7 +206,7 @@ const users = {
       name: 'ResearchUsers',
       component: loadView('user/research/ResearchUsers'),
       meta: {
-        rule: isPublic,
+        rule: new AclRule('manager').generate(),
         requiresAuth: true
       },
       props: {
@@ -215,7 +227,7 @@ const users = {
       name: 'RegisterUsers',
       component: loadView('user/create/RegisterUsers'),
       meta: {
-        rule: isPublic,
+        rule: new AclRule('manager').generate(),
         requiresAuth: true
       },
       props: {
@@ -236,7 +248,7 @@ const users = {
       name: 'EditUsers',
       component: loadView('user/edit/EditUsers'),
       meta: {
-        rule: isPublic,
+        rule: new AclRule('manager').generate(),
         requiresAuth: true
       },
       props: {
@@ -259,6 +271,10 @@ const medical = {
   name: 'Medical',
   component: loadView('medical/Medical'),
   redirect: '/medicos/pesquisa',
+  meta: {
+    rule: new AclRule('manager').generate(),
+    requiresAuth: true
+  },
   children: [
     {
       beforeEnter,

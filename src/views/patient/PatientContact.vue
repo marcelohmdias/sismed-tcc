@@ -124,9 +124,11 @@ export default {
       return value.replace(/(\d{2})(\d{5})(\d+)/g, '( $1 ) $2 - $3')
     },
     formatStatus (value) {
+      if (!value) return value
       return this.$t(`enums.status.${enums.status.get(value).key}`)
     },
     formatType (value) {
+      if (!value) return value
       return this.$t(`enums.contact.${enums.contact.get(value).key}`)
     }
   }
