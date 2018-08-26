@@ -271,7 +271,8 @@ export default {
         attendance_form: 'Cadastro de Atendimento',
         exam_form: 'Cadastro de Exames',
         medicine_form: 'Cadastro de Medicamentos',
-        root: 'Prontuários'
+        root: 'Prontuários',
+        list: 'Lista de Prontuários'
       }
     },
     schedule: {
@@ -316,6 +317,11 @@ export default {
         edit: 'Edição de Endereço',
         delete: 'Remoção de Endereço'
       },
+      attendance: {
+        new: 'Cadastro de Atendimento',
+        edit: 'Edição de Atendimento',
+        delete: 'Remoção de Atendimento'
+      },
       contact: {
         new: 'Cadastro de Contato',
         edit: 'Edição de Contato',
@@ -325,6 +331,16 @@ export default {
         new: 'Cadastro de Médico',
         edit: 'Edição de Médico',
         delete: 'Remoção de Médico'
+      },
+      exam: {
+        new: 'Cadastro de Exame',
+        edit: 'Edição de Exame',
+        delete: 'Remoção de Exame'
+      },
+      medicine: {
+        new: 'Cadastro de Medicamento',
+        edit: 'Edição de Medicamento',
+        delete: 'Remoção de Medicamento'
       },
       patient: {
         new: 'Cadastro de Pacientes',
@@ -367,23 +383,32 @@ export default {
     }
   },
   error: {
+    register_not_found: 'Registro não encontrado.',
     login: {
       email_field: 'Digite um e-mail válido.',
       password_field: 'A senha deve conter no mínimo 6 caracteres.'
     },
     required: {
+      anamnesis: 'O campo "Anamnese" é obrigatório.',
       city: 'O campo "Cidade" é obrigatório.',
       cpf: 'O campo "CPF" é obrigatório.',
-      registry: 'O campo "Registro" é obrigatório.',
       date_birth: 'O campo "Data de Nascimento" é obrigatório.',
+      date: 'O campo "Data" é obrigatório.',
       default: 'Este campo é obrigatório.',
+      diagnostic: 'O campo "Diagnóstico" é obrigatório.',
+      doctor: 'O campo "Médico" é obrigatório.',
+      dosage: 'O campo "Posologia" é obrigatório.',
+      exam: 'O campo "Exame" é obrigatório.',
+      factory_name: 'O campo "Nome de Fábrica" é obrigatório.',
       full_name: 'O campo "Nome Completo" é obrigatório.',
+      generic_name: 'O campo "Nome Genérico" é obrigatório.',
       marital_status: 'O campo "Estado Civil" é obrigatório.',
       mother_name: 'O campo "Nome da Mãe" é obrigatório.',
       neighborhood: 'O campo "Bairro" é obrigatório.',
-      number: 'O campo "Número" é obrigatório.',
       number_phone: 'O campo "Número" é obrigatório.',
+      number: 'O campo "Número" é obrigatório.',
       public_place: 'O campo "Logradouro" é obrigatório.',
+      registry: 'O campo "Registro" é obrigatório.',
       schooling: 'O campo "Escolaridade" é obrigatório.',
       sex: 'O campo "Sexo" é obrigatório.',
       state: 'O campo "Estado" é obrigatório.',

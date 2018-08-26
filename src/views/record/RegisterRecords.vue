@@ -7,6 +7,7 @@
             name="full_name"
             :label="$t('page.profile.form.full_name')"
             type="text"
+            :value="entity.full_name"
             readonly
           />
         </v-flex>
@@ -15,6 +16,7 @@
             name="date_birth"
             :label="$t('page.profile.form.date_birth')"
             type="text"
+            :value="date"
             readonly
           />
         </v-flex>
@@ -23,6 +25,7 @@
             :items="sexItems"
             name="sex"
             :label="'page.profile.form.sex'"
+            :value="entity.sex"
             readonly
           />
         </v-flex>
@@ -51,13 +54,27 @@
           </v-tabs>
           <v-tabs-items v-model="tabState">
             <v-tab-item id="tab-0">
-              <app-record-attendance :items="[]" />
+              <app-record-attendance
+                :items="entity.attendances"
+                :list="listDoctor"
+                :id="entity._id"
+              />
             </v-tab-item>
             <v-tab-item id="tab-1">
-              <app-record-exams :items="[]" />
+              <app-record-exams
+                :items="entity.exams"
+                :list="listDoctor"
+                :id="entity._id"
+                :name="entity.full_name"
+                :patient="entity.patient_id"
+              />
             </v-tab-item>
             <v-tab-item id="tab-2">
-              <app-record-medicines :items="[]" />
+              <app-record-medicines
+                :items="entity.medicines"
+                :list="listDoctor"
+                :id="entity._id"
+              />
             </v-tab-item>
           </v-tabs-items>
         </v-flex>
@@ -80,23 +97,84 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
 import PageRules from '@/mixins/PageRules'
 
 import AppRecordAttendance from './RecordAttendance'
 import AppRecordExams from './RecordExams'
 import AppRecordMedicines from './RecordMedicines'
 
+import { date } from '@/helpers/formatters'
+
+import { selectedList } from '@/server/doctor'
+
+const actions = mapActions({
+  getId: 'record/GET_ID',
+  resetId: 'record/RESET_ID'
+})
+
+const state = mapState({
+  entity: (state) => state.record.data
+})
+
 export default {
   name: 'RegisterRecords',
   components: { AppRecordAttendance, AppRecordExams, AppRecordMedicines },
   mixins: [ PageRules ],
   data: () => ({
+    listDoctor: [],
     sexItems: [
       { text: 'enums.sex.female', value: 1 },
       { text: 'enums.sex.male', value: 2 }
     ],
     tabState: 'tab-0'
-  })
+  }),
+
+  computed: {
+    ...state,
+    date () {
+      const value = this.entity.date_birth
+      return value
+        ? date(value.toMillis()).format()
+        : null
+    }
+  },
+
+  methods: {
+    ...actions,
+    async getListDoctor () {
+      this.listDoctor = await selectedList()
+    }
+  },
+
+  created () {
+    this.resetId()
+    this.getListDoctor()
+  },
+
+  mounted () {
+    (async (ctx) => {
+      const { id } = ctx.$route.params
+
+      if (!id) return
+
+      ctx.unsubscribe = await ctx.getId({ id })
+
+      if (ctx.unsubscribe.name !== 'Error') return
+
+      ctx.$store.dispatch('notify/ADD', {
+        body: 'error.register_not_found',
+        title: 'message.title.default.error',
+        type: 'error'
+      }, { root: true })
+      ctx.$router.push({ name: 'ResearchRecords' })
+    })(this)
+  },
+
+  beforeDestroy () {
+    this.resetId()
+    this.unsubscribe && this.unsubscribe()
+  }
 }
 </script>
 

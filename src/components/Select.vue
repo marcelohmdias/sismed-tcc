@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     change (value) {
-      this.$listeners.input({ target: { value } })
+      this.$listeners.input && this.$listeners.input({ target: { value } })
     }
   }
 }

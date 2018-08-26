@@ -48,6 +48,7 @@
               class="mx-0"
               @click="openModal(props.item)"
               :disabled="checkDisabled(props.item)"
+              v-if="hasDelete"
               icon
             >
               <v-tooltip bottom>
@@ -88,6 +89,13 @@ export default {
       entity: null
     }
   },
+
+  computed: {
+    hasDelete () {
+      return !!this.remove
+    }
+  },
+
   methods: {
     checkDisabled (item) {
       return this.disabledRemove(item)

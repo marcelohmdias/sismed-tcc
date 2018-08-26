@@ -1,5 +1,7 @@
 import { db } from '@/helpers/firebase'
 
+import { deleteRecord } from './record'
+
 const patientRef = () => db().collection('patients')
 
 const parseList = list => item => {
@@ -27,6 +29,14 @@ export const getList = async (state) => {
   return patientList
 }
 
+export const selectedList = async () => {
+  const list = await getList({})
+  return list.map((item) => ({
+    key: item._id,
+    value: item.full_name
+  }))
+}
+
 export const getByid = async (id, fn) => {
   const patient = patientRef().doc(id)
 
@@ -34,6 +44,9 @@ export const getByid = async (id, fn) => {
     if (item.empty) return
 
     const patient = id ? item.data() : item.docs[0].data()
+
+    if (!patient) return
+
     patient._id = id ? item.id : item.docs[0].ref.id
 
     fn('patient', patient)
@@ -41,7 +54,7 @@ export const getByid = async (id, fn) => {
 
   const dataEntity = await patient.get()
 
-  if (dataEntity.empty) return
+  if (!dataEntity.exists) throw Error('register_not_found')
 
   const addressesMute = dataEntity.ref
     .collection('addresses').onSnapshot((docs) => {
@@ -80,8 +93,9 @@ export const savePatient = async (ref, data) => {
 
 export const deletePatient = async (ref) => {
   const data = await patientRef().doc(ref)
+  const entity = await data.get()
 
-  // TODO: Adicionar exculsão de prontuário
+  deleteRecord(entity.data().record_id)
 
   const addressesRef = await data.collection('addresses').get()
   addressesRef.forEach(async (item) => {
@@ -144,6 +158,7 @@ export const deleteContact = async (ref, id) => {
 
 export default {
   getList,
+  selectedList,
   getByid,
   createPatient,
   savePatient,

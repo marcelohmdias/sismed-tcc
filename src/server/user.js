@@ -19,6 +19,9 @@ export const getUser = async ({ id, uid }, fn) => {
     if (item.empty) return
 
     const user = id ? item.data() : item.docs[0].data()
+
+    if (!user) return
+
     user._id = id ? item.id : item.docs[0].ref.id
 
     fn('user', user)
@@ -26,7 +29,7 @@ export const getUser = async ({ id, uid }, fn) => {
 
   const dataEntity = await user.get()
 
-  if (dataEntity.empty) return
+  if (dataEntity.empty) throw Error('register_not_found')
 
   const userEntity = id ? dataEntity.ref : dataEntity.docs[0].ref
 
@@ -62,7 +65,7 @@ export const getByid = async ({ uid, id }) => {
     user = user.docs[0]
   } else {
     user = await userRef().doc(id).get()
-    if (!user.exists) {
+    if (user.empty) {
       const err = new Error('auth/user-not-found')
       err.code = 'auth/user-not-found'
       throw err
@@ -92,7 +95,7 @@ export const getList = async (state) => {
 export const createUser = async ({ email, password }) => {
   const data = await userRef().where('email', '==', email).get()
 
-  if (!data.empty) throw new Error()
+  if (data.exists) throw new Error()
 
   const user = await userRef().add({
     email,

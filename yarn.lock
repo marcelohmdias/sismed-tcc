@@ -652,9 +652,9 @@
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/@firebase/auth-types/-/auth-types-0.3.4.tgz#253b1b2d9b520a0b945d4617c8418f0f19a4159f"
 
-"@firebase/auth@0.7.2":
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-0.7.2.tgz#6432f22f370d003f046bf6a395f6af1369c2ecc1"
+"@firebase/auth@0.7.3":
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-0.7.3.tgz#b596bdc43d79b7121758c78b0dd6d1d70cd7387d"
   dependencies:
     "@firebase/auth-types" "0.3.4"
 
@@ -676,9 +676,9 @@
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@firebase/firestore-types/-/firestore-types-0.6.0.tgz#560befea439a4a9d830866fa5f5859e4bb30d770"
 
-"@firebase/firestore@0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-0.7.0.tgz#1abbabac0f6a194513d625c5a71f62390e7ac2e3"
+"@firebase/firestore@0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@firebase/firestore/-/firestore-0.7.1.tgz#41a820934b45409b40aedccfc3ba61228b70b51b"
   dependencies:
     "@firebase/firestore-types" "0.6.0"
     "@firebase/logger" "0.1.1"
@@ -777,13 +777,13 @@
   dependencies:
     "@progress/kendo-base-components-vue-wrapper" "2018.2.530.06041444"
 
-"@progress/kendo-theme-default@^2.54.1":
-  version "2.54.1"
-  resolved "https://registry.yarnpkg.com/@progress/kendo-theme-default/-/kendo-theme-default-2.54.1.tgz#25a8e82d9428845efec5bbb1e0f3698d2c4b7c49"
+"@progress/kendo-theme-default@^2.55.0":
+  version "2.55.0"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-theme-default/-/kendo-theme-default-2.55.0.tgz#60ec7da096a6be96cc97a7511d45e2347a50de24"
 
-"@progress/kendo-ui@^2018.2.806":
-  version "2018.2.806"
-  resolved "https://registry.yarnpkg.com/@progress/kendo-ui/-/kendo-ui-2018.2.806.tgz#501071f02e93812b0400ba5103b91ddad65f03d2"
+"@progress/kendo-ui@^2018.2.822":
+  version "2018.2.822"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-ui/-/kendo-ui-2018.2.822.tgz#86334e6585bd1dbfdd184e34da78899f0d32fc07"
   dependencies:
     jquery "<=3"
 
@@ -3493,9 +3493,9 @@ fill-range@^4.0.0:
     repeat-string "^1.6.1"
     to-regex-range "^2.1.0"
 
-final-form@^4.9.1:
-  version "4.9.1"
-  resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.9.1.tgz#1afd6c61b4946b153b592c07eba7440979f257ed"
+final-form@^4.10.0:
+  version "4.10.0"
+  resolved "https://registry.yarnpkg.com/final-form/-/final-form-4.10.0.tgz#6179bca7676925202510e9877eb1ad2ad1cd3460"
 
 finalhandler@1.1.0:
   version "1.1.0"
@@ -3554,14 +3554,14 @@ find-up@^2.0.0, find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
-firebase@^5.4.0:
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/firebase/-/firebase-5.4.0.tgz#80f639313416053ba229f8b11327832250ee01a1"
+firebase@^5.4.1:
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/firebase/-/firebase-5.4.1.tgz#1e2c12f682771f4b6a1d78255af86dd8dc28f0e7"
   dependencies:
     "@firebase/app" "0.3.3"
-    "@firebase/auth" "0.7.2"
+    "@firebase/auth" "0.7.3"
     "@firebase/database" "0.3.4"
-    "@firebase/firestore" "0.7.0"
+    "@firebase/firestore" "0.7.1"
     "@firebase/functions" "0.3.0"
     "@firebase/messaging" "0.3.5"
     "@firebase/polyfill" "0.3.3"
@@ -7986,9 +7986,9 @@ vuelidate@^0.7.4:
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.7.4.tgz#5a0e54be09ac0192f1aa3387d74b92e0945bf8aa"
 
-vuetify@^1.1.13:
-  version "1.1.13"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.1.13.tgz#42bc2a18fd7e3c610358b7a4f54ee3fe748b9676"
+vuetify@^1.1.14:
+  version "1.1.14"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.1.14.tgz#a45b6cd659e31edc8ca8dd2094562f1763f1f223"
 
 vuex-router-sync@^5.0.0:
   version "5.0.0"

@@ -3,6 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12>
         <app-data-table
+          :filters="filters"
           :headers="headers"
           :items="items"
           :order="order"
@@ -25,11 +26,18 @@
         />
         <v-card-text>
           <f-form name="RecordAttendanceForm" :submit="submitHandler">
-            <app-record-attendance-form slot-scope="props" :form="props" />
+            <app-record-attendance-form
+              slot-scope="props"
+              :form="props"
+              :list="list"
+              :opened="opened"
+              :entity="entity"
+            />
           </f-form>
         </v-card-text>
         <v-card-actions>
           <v-btn
+            :disabled="formIsDisabled('RecordAttendanceForm')"
             v-t="'globals.button.save'"
             type="submit"
             form="RecordAttendanceForm"
@@ -50,54 +58,123 @@
 </template>
 
 <script>
-
+import { mapActions } from 'vuex'
 import Typed from '@/modules/typed'
+import FormRules from '@/mixins/FormRules'
+import { date } from '@/helpers/formatters'
 
 import AppRecordAttendanceForm from './RecordAttendanceForm'
 
+const actions = mapActions({
+  saveEndity: 'record/SAVE_ATTENDANCES',
+  deleteEntity: 'record/DELETE_ATTENDANCES'
+})
+
 export default {
-  name: 'AppRecordMedicines',
+  name: 'AppRecordAttendance',
+  mixins: [ FormRules ],
   components: { AppRecordAttendanceForm },
   props: {
-    items: Typed.is.array.default([]).define
+    id: Typed.is.str.define,
+    items: Typed.is.array.default([]).define,
+    list: Typed.is.array.default([]).define
   },
-  data: () => ({
-    opened: false,
-    headers: [
-      {
-        text: 'page.profile.table.address.actions',
-        sortable: false
+  data () {
+    return {
+      opened: false,
+      entity: {},
+      filters: {
+        date: this.formatDate,
+        diagnostic: this.formatText
       },
-      {
-        text: 'page.record.table.date',
-        value: 'date'
-      },
-      {
-        text: 'page.record.table.doctor',
-        value: 'doctor'
-      },
-      {
-        text: 'page.record.table.diagnostic',
-        value: 'diagnostic'
-      }
-    ],
-    order: [
-      'date',
-      'doctor',
-      'diagnostic'
-    ]
-  }),
+      headers: [
+        {
+          text: 'page.profile.table.address.actions',
+          sortable: false
+        },
+        {
+          text: 'page.record.table.date',
+          value: 'date'
+        },
+        {
+          text: 'page.record.table.doctor',
+          value: 'doctor_name'
+        },
+        {
+          text: 'page.record.table.diagnostic',
+          value: 'diagnostic'
+        }
+      ],
+      order: [
+        'date',
+        'doctor_name',
+        'diagnostic'
+      ]
+    }
+  },
   methods: {
+    ...actions,
+
+    formatDate (value) {
+      return value
+        ? date(value.toMillis()).format()
+        : null
+    },
+
+    formatText (value = '') {
+      return value.length > 100
+        ? `${value.substring(0, 100)} ...`
+        : value
+    },
+
     editEntity (entity) {
+      this.entity = {
+        ...entity
+      }
       this.opened = true
     },
     newEntity () {
+      this.entity = {}
       this.opened = true
     },
-    removeEntity (state) {
 
+    removeEntity ({ _id }) {
+      try {
+        this.$Progress.start()
+        const ref = this.id
+
+        this.deleteEntity({ _id, ref })
+      } catch (error) {
+        this.$Progress.fail()
+      } finally {
+        this.$Progress.finish()
+      }
     },
-    submitHandler () {}
+
+    async submitHandler (state) {
+      try {
+        this.$Progress.start()
+        const { _id } = state
+
+        const data = {
+          doctor_name: state.doctor.value,
+          doctor_id: state.doctor.key,
+          date: new Date(state.date),
+          anamnesis: state.anamnesis || null,
+          diagnostic: state.diagnostic || null,
+          note: state.note || null
+        }
+
+        const ref = this.id
+
+        await this.saveEndity({ ref, _id, data })
+        this.opened = false
+      } catch (err) {
+        this.$Progress.fail()
+      } finally {
+        this.$Progress.finish()
+      }
+    }
   }
 }
 </script>

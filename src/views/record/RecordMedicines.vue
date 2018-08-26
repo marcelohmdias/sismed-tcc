@@ -3,6 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12>
         <app-data-table
+          :filters="filters"
           :headers="headers"
           :items="items"
           :order="order"
@@ -25,11 +26,18 @@
         />
         <v-card-text>
           <f-form name="RecordMedicinesForm" :submit="submitHandler">
-            <app-record-medicines-form slot-scope="props" :form="props" />
+            <app-record-medicines-form
+              slot-scope="props"
+              :form="props"
+              :list="list"
+              :opened="opened"
+              :entity="entity"
+            />
           </f-form>
         </v-card-text>
         <v-card-actions>
           <v-btn
+            :disabled="formIsDisabled('RecordMedicinesForm')"
             v-t="'globals.button.save'"
             type="submit"
             form="RecordMedicinesForm"
@@ -50,54 +58,116 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import Typed from '@/modules/typed'
+import FormRules from '@/mixins/FormRules'
+import { date } from '@/helpers/formatters'
 
 import AppRecordMedicinesForm from './RecordMedicinesForm'
 
+const actions = mapActions({
+  saveEndity: 'record/SAVE_MEDICINES',
+  deleteEntity: 'record/DELETE_MEDICINES'
+})
+
 export default {
   name: 'AppRecordMedicines',
+  mixins: [ FormRules ],
   components: { AppRecordMedicinesForm },
   props: {
-    items: Typed.is.array.default([]).define
+    id: Typed.is.str.define,
+    items: Typed.is.array.default([]).define,
+    list: Typed.is.array.default([]).define
   },
-  data: () => ({
-    opened: false,
-    headers: [
-      {
-        text: 'page.profile.table.address.actions',
-        sortable: false
+  data () {
+    return {
+      opened: false,
+      entity: {},
+      filters: {
+        date: this.formatDate
       },
-      {
-        text: 'page.record.table.medicine',
-        value: 'medicine'
-      },
-      {
-        text: 'page.record.table.doctor',
-        value: 'doctor'
-      },
-      {
-        text: 'page.record.table.date',
-        value: 'date'
-      }
-    ],
-    order: [
-      'medicine',
-      'doctor',
-      'date'
-    ]
-  }),
+      headers: [
+        {
+          text: 'page.profile.table.address.actions',
+          sortable: false
+        },
+        {
+          text: 'page.record.table.medicine',
+          value: 'factory_name'
+        },
+        {
+          text: 'page.record.table.doctor',
+          value: 'doctor_name'
+        },
+        {
+          text: 'page.record.table.date',
+          value: 'date'
+        }
+      ],
+      order: [
+        'factory_name',
+        'doctor_name',
+        'date'
+      ]
+    }
+  },
   methods: {
-    editEntity (entity) {
+    ...actions,
 
+    formatDate (value) {
+      return value
+        ? date(value.toMillis()).format()
+        : null
     },
-    newEntity () {
+
+    editEntity (entity) {
+      this.entity = {
+        ...entity
+      }
       this.opened = true
     },
-    removeEntity (state) {
-
+    newEntity () {
+      this.entity = {}
+      this.opened = true
     },
-    submitHandler () {
 
+    removeEntity ({ _id }) {
+      try {
+        this.$Progress.start()
+        const ref = this.id
+
+        this.deleteEntity({ _id, ref })
+      } catch (error) {
+        this.$Progress.fail()
+      } finally {
+        this.$Progress.finish()
+      }
+    },
+
+    async submitHandler (state) {
+      try {
+        this.$Progress.start()
+        const { _id } = state
+
+        const data = {
+          doctor_name: state.doctor.value,
+          doctor_id: state.doctor.key,
+          date: new Date(state.date),
+          generic_name: state.generic_name || null,
+          factory_name: state.factory_name || null,
+          manufacturer: state.manufacturer || null,
+          dosage: state.dosage || null
+        }
+
+        const ref = this.id
+
+        await this.saveEndity({ ref, _id, data })
+        this.opened = false
+      } catch (err) {
+        this.$Progress.fail()
+      } finally {
+        this.$Progress.finish()
+      }
     }
   }
 }

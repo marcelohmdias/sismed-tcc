@@ -1,0 +1,29 @@
+export const SAVE_ATTENDANCES = 'SAVE_ATTENDANCES'
+export const DELETE_ATTENDANCES = 'DELETE_ATTENDANCES'
+export const SAVE_EXAMS = 'SAVE_EXAMS'
+export const DELETE_EXAMS = 'DELETE_EXAMS'
+export const SAVE_MEDICINES = 'SAVE_MEDICINES'
+export const DELETE_MEDICINES = 'DELETE_MEDICINES'
+export const GET_ID = 'GET_ID'
+export const GET_LIST = 'GET_LIST'
+export const RESET_ID = 'RESET_ID'
+export const RESET_LIST = 'RESET_LIST'
+export const SAVE = 'SAVE'
+export const CREATE = 'CREATE'
+export const DELETE = 'DELETE'
+
+export default {
+  DELETE_ATTENDANCES,
+  SAVE_ATTENDANCES,
+  DELETE_EXAMS,
+  SAVE_EXAMS,
+  DELETE_MEDICINES,
+  SAVE_MEDICINES,
+  GET_ID,
+  GET_LIST,
+  RESET_ID,
+  RESET_LIST,
+  SAVE,
+  CREATE,
+  DELETE
+}

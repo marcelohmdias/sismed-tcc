@@ -267,6 +267,15 @@ export default {
       if (!id) return
 
       ctx.unsubscribe = await ctx.getId({ id })
+
+      if (ctx.unsubscribe.name !== 'Error') return
+
+      ctx.$store.dispatch('notify/ADD', {
+        body: 'error.register_not_found',
+        title: 'message.title.default.error',
+        type: 'error'
+      }, { root: true })
+      ctx.$router.push({ name: 'ResearchMedicals' })
     })(this)
   },
   beforeDestroy () {

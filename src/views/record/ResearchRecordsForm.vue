@@ -17,12 +17,15 @@
                       <f-field name="patient">
                         <template slot-scope="props">
                           <v-autocomplete
-                            :items="[]"
+                            :items="patients"
                             :name="props.name"
                             :label="$t('page.schedule.form.patient')"
                             :no-data-text="$t('message.no_data')"
+                            :filter="searchFilter"
                             :value="props.value"
                             v-on="props.events"
+                            item-text="value"
+                            return-object
                           />
                         </template>
                       </f-field>
@@ -68,12 +71,16 @@ import Typed from '@/modules/typed'
 export default {
   name: 'ResearchRecordsForm',
   props: {
-    form: Typed.is.obj.define
+    form: Typed.is.obj.define,
+    patients: Typed.is.array.define
   },
   methods: {
     clean () {
       this.form.methods.reset()
       this.$emit('clean')
+    },
+    searchFilter (item, query = '') {
+      return item.value.toLowerCase().indexOf(query.toLowerCase()) > -1
     }
   }
 }

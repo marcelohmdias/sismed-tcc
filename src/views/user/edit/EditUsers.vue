@@ -130,7 +130,17 @@ export default {
     this.resetUserEntity()
     ;(async (ctx) => {
       const { id } = ctx.$route.params
+
       ctx.unsubscribe = await ctx.getUserEntity({ id })
+
+      if (ctx.unsubscribe.name !== 'Error') return
+
+      ctx.$store.dispatch('notify/ADD', {
+        body: 'error.register_not_found',
+        title: 'message.title.default.error',
+        type: 'error'
+      }, { root: true })
+      ctx.$router.push({ name: 'ResearchUsers' })
     })(this)
   },
   beforeDestroy () {

@@ -3,6 +3,7 @@
     <v-layout row wrap>
       <v-flex xs12>
         <app-data-table
+          :filters="filters"
           :headers="headers"
           :items="items"
           :order="order"
@@ -25,11 +26,19 @@
         />
         <v-card-text>
           <f-form name="RecordExamsForm" :submit="submitHandler">
-            <app-record-exams-form slot-scope="props" :form="props" />
+            <app-record-exams-form
+              slot-scope="props"
+              :form="props"
+              :list="list"
+              :list-exams="listExams"
+              :opened="opened"
+              :entity="entity"
+            />
           </f-form>
         </v-card-text>
         <v-card-actions>
           <v-btn
+            :disabled="formIsDisabled('RecordExamsForm')"
             v-t="'globals.button.save'"
             type="submit"
             form="RecordExamsForm"
@@ -50,61 +59,146 @@
 </template>
 
 <script>
-
+import { mapActions } from 'vuex'
 import Typed from '@/modules/typed'
+import FormRules from '@/mixins/FormRules'
+import enums from '@/helpers/enums'
+import { date } from '@/helpers/formatters'
 
 import AppRecordExamsForm from './RecordExamsForm'
+import { selectedList } from '@/server/exams'
+
+const actions = mapActions({
+  saveEndity: 'record/SAVE_EXAMS',
+  deleteEntity: 'record/DELETE_EXAMS'
+})
 
 export default {
-  name: 'AppRecordMedicines',
+  name: 'AppRecordExams',
+  mixins: [ FormRules ],
   components: { AppRecordExamsForm },
   props: {
-    items: Typed.is.array.default([]).define
+    id: Typed.is.str.define,
+    items: Typed.is.array.default([]).define,
+    list: Typed.is.array.default([]).define,
+    name: Typed.is.str.define,
+    patient: Typed.is.str.define
   },
-  data: () => ({
-    opened: false,
-    headers: [
-      {
-        text: 'page.profile.table.address.actions',
-        sortable: false
+  data () {
+    return {
+      opened: false,
+      entity: {},
+      listExams: [],
+      filters: {
+        date: this.formatDate,
+        exams: this.formatExam,
+        status: this.formatStatus
       },
-      {
-        text: 'page.record.table.exam',
-        value: 'exam'
-      },
-      {
-        text: 'page.record.table.doctor',
-        value: 'doctor'
-      },
-      {
-        text: 'page.record.table.date',
-        value: 'date'
-      },
-      {
-        text: 'page.record.table.status',
-        value: 'status'
-      }
-    ],
-    order: [
-      'exam',
-      'doctor',
-      'date',
-      'status'
-    ]
-  }),
+      headers: [
+        {
+          text: 'page.profile.table.address.actions',
+          sortable: false
+        },
+        {
+          text: 'page.record.table.exam',
+          value: 'exams'
+        },
+        {
+          text: 'page.record.table.doctor',
+          value: 'doctor_name'
+        },
+        {
+          text: 'page.record.table.date',
+          value: 'date'
+        },
+        {
+          text: 'page.record.table.status',
+          value: 'status'
+        }
+      ],
+      order: [
+        'exams',
+        'doctor_name',
+        'date',
+        'status'
+      ]
+    }
+  },
   methods: {
-    editEntity (entity) {
+    ...actions,
 
+    formatDate (value) {
+      return value
+        ? date(value.toMillis()).format()
+        : null
     },
-    newEntity () {
+
+    formatExam (value = []) {
+      return value.map(({ name }) => name).join(', ')
+    },
+
+    formatStatus (value) {
+      if (!value) return value
+      return this.$t(`enums.exam.${enums.exam.get(value).key}`)
+    },
+
+    editEntity (entity) {
+      this.entity = {
+        ...entity
+      }
       this.opened = true
     },
-    removeEntity (state) {
-
+    newEntity () {
+      this.entity = {}
+      this.opened = true
     },
-    submitHandler (state) {
 
+    async getListExams () {
+      this.listExams = await selectedList()
+    },
+
+    removeEntity ({ _id }) {
+      try {
+        this.$Progress.start()
+        this.deleteEntity({ _id })
+      } catch (error) {
+        this.$Progress.fail()
+      } finally {
+        this.$Progress.finish()
+      }
+    },
+
+    async submitHandler (state) {
+      try {
+        this.$Progress.start()
+        const { _id } = state
+
+        const data = {
+          record_id: this.id,
+          patient_id: this.patient,
+          patient_name: this.name,
+          doctor_name: state.doctor.value,
+          doctor_id: state.doctor.key,
+          date: new Date(state.date),
+          status: state.status || null,
+          note: state.note || null,
+          exams: (state.exam || []).map((item) => ({
+            exam_id: item.key,
+            name: item.value
+          }))
+        }
+
+        await this.saveEndity({ _id, data })
+        this.opened = false
+      } catch (err) {
+        this.$Progress.fail()
+      } finally {
+        this.$Progress.finish()
+      }
     }
+  },
+  created () {
+    this.getListExams()
   }
 }
 </script>

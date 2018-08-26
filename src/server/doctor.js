@@ -25,6 +25,16 @@ export const getList = async (state) => {
   return doctorList
 }
 
+export const selectedList = async () => {
+  const list = await getList({})
+  return list
+    .filter((item) => !!item.status)
+    .map((item) => ({
+      key: item._id,
+      value: item.full_name
+    }))
+}
+
 export const getByid = async (id, fn) => {
   const doctor = doctorsRef().doc(id)
 
@@ -32,6 +42,9 @@ export const getByid = async (id, fn) => {
     if (item.empty) return
 
     const doctor = item.data()
+
+    if (!doctor) return
+
     doctor._id = item.id
 
     fn('doctor', doctor)
@@ -39,7 +52,7 @@ export const getByid = async (id, fn) => {
 
   const dataEntity = await doctor.get()
 
-  if (dataEntity.empty) return
+  if (!dataEntity.exists) throw Error('register_not_found')
 
   const specialityMute = dataEntity.ref
     .collection('specialities').onSnapshot((docs) => {
