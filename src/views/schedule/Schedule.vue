@@ -2,11 +2,13 @@
   <div>
     <v-card class="mb-4" width="100%">
       <f-form :submit="searchUser" name="ScheduleForm">
-        <app-schedule-form
+        <app-record-exams-form
           slot-scope="props"
           :form="props"
+          :doctor="doctorList"
+          :patient="patientList"
           @clean="reset"
-          ref="ScheduleFormForm"
+          ref="ScheduleForm"
         />
       </f-form>
     </v-card>
@@ -16,7 +18,6 @@
         :date="date"
         :list="list"
         @add="onAdd"
-        @change="onChange"
         @edit="onEdit"
         @remove="onRemove"
         @open-calendar="openCalendar"
@@ -50,26 +51,67 @@
       :dialog="openDialog"
       :entity="entity"
       :opened="dialog"
+      :save-endity="saveEndity"
+      :doctor="doctorList"
+      :patient="patientList"
     />
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+
+import PageRules from '@/mixins/PageRules'
+import { date } from '@/helpers/formatters'
+
 import AppCalendar from './Calendar'
-import AppScheduleForm from './ScheduleForm'
+import AppRecordExamsForm from '@/views/record/ExamsForm'
 import AppAppointmentDialog from './AppointmentDialog'
+
+import { selectedList as getDoctorList } from '@/server/doctor'
+import { selectedList as getPatientList } from '@/server/patient'
+
+const actions = mapActions({
+  getList: 'schedule/GET_LIST',
+  saveEndity: 'schedule/SAVE',
+  deleteEndity: 'schedule/DELETE',
+  reset: 'exam/RESET_LIST'
+})
+
+const state = mapState({
+  items: (state) => state.schedule.list
+})
 
 export default {
   name: 'AppSchedule',
-  components: { AppAppointmentDialog, AppCalendar, AppScheduleForm },
+  mixins: [ PageRules ],
+  components: { AppAppointmentDialog, AppCalendar, AppRecordExamsForm },
+  head: {
+    title: {
+      inner: 'SISMed',
+      separator: ' - ',
+      complement: 'Agendamento'
+    }
+  },
   data: () => ({
+    doctorList: [],
+    patientList: [],
     date: new Date(),
     datePicker: false,
     dialog: false,
-    entity: {},
-    list: []
+    entity: {}
   }),
   computed: {
+    ...state,
+    list () {
+      return this.items.map((item) => {
+        return {
+          ...item,
+          start: new Date(item.start.toMillis()),
+          end: new Date(item.end.toMillis())
+        }
+      })
+    },
     parsedValue () {
       const year = this.date.getFullYear()
       const month = this.date.getMonth() + 1
@@ -77,34 +119,91 @@ export default {
       return `${year}-${month}-${date}`
     }
   },
+
   methods: {
+    ...actions,
+    async searchUser (state, form) {
+      try {
+        this.$Progress.start()
+
+        const data = {}
+
+        if (state.patient) data.patient_id = state.patient.key
+        if (state.doctor) data.doctor_id = state.doctor.key
+        if (state.date) data.start = new Date(state.date)
+
+        this.getList({ data })
+      } catch (err) {
+        this.$Progress.fail()
+      } finally {
+        this.$Progress.finish()
+      }
+    },
+    async getDoctor () {
+      this.doctorList = await getDoctorList()
+    },
+
+    async getPatient () {
+      this.patientList = await getPatientList()
+    },
+
     changeDate (value) {
       const date = value.split('-')
       this.date = new Date(date[0], date[1] - 1, date[2])
       this.datePicker = false
     },
+
     onAdd (data) {
-      console.log(data)
+      this.entity = {
+        date: data.start.getTime(),
+        time: date(data.start).format('HH:mm')
+      }
       this.openDialog(true)
     },
-    onChange (data) {
-      console.log(data)
-    },
+
     onEdit (data) {
-      console.log(data)
+      this.entity = {
+        _id: data._id,
+        date: data.start.getTime(),
+        doctor: {
+          key: data.doctor_id,
+          value: data.doctor_name
+        },
+        note: data.note,
+        patient: {
+          key: data.patient_id,
+          value: data.patient_name
+        },
+        time: date(data.start).format('HH:mm')
+      }
       this.openDialog(true)
     },
+
     onRemove (data) {
-      console.log(data)
+      try {
+        this.$Progress.start()
+
+        this.deleteEndity({ _id: data._id })
+
+        this.$refs.ScheduleForm.form.methods.submit()
+      } catch (err) {
+        this.$Progress.fail()
+      } finally {
+        this.$Progress.finish()
+      }
     },
+
     openCalendar () {
       this.datePicker = true
     },
+
     openDialog (state) {
       this.dialog = state
-    },
-    reset () {},
-    searchUser () {}
+    }
+  },
+  mounted () {
+    this.getDoctor()
+    this.getPatient()
   }
 }
 </script>

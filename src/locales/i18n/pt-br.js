@@ -352,6 +352,11 @@ export default {
         edit: 'Edição de Prontuário',
         delete: 'Remoção de Prontuário'
       },
+      schedule: {
+        new: 'Cadastro de Consulta Médica',
+        edit: 'Edição de Consulta Médica',
+        delete: 'Remoção de Consulta Médica'
+      },
       speciality: {
         new: 'Cadastro de Especialidades',
         edit: 'Edição de Especialidades',
@@ -384,6 +389,7 @@ export default {
   },
   error: {
     register_not_found: 'Registro não encontrado.',
+    has_registration: 'O Médico possui uma consulta neste horário.',
     login: {
       email_field: 'Digite um e-mail válido.',
       password_field: 'A senha deve conter no mínimo 6 caracteres.'

@@ -10,32 +10,51 @@
           <f-field name="patient">
             <template slot-scope="props">
               <v-autocomplete
-                :items="[]"
+                :items="patient"
                 :name="props.name"
                 :label="$t('page.schedule.form.patient')"
                 :no-data-text="$t('message.no_data')"
+                :rules="checkError(props.meta)"
                 :value="props.value"
+                :search-input="props.value"
+                :filter="searchFilter"
                 v-on="props.events"
+                item-text="value"
+                item-value="key"
+                return-object
               />
             </template>
           </f-field>
         </v-flex>
         <v-flex xs12>
-          <f-field name="doctor">
+          <f-field
+            name="doctor"
+            :validate="validate('error.required.doctor', required)"
+          >
             <template slot-scope="props">
               <v-autocomplete
-                :items="[]"
+                :items="doctor"
                 :name="props.name"
                 :label="$t('page.schedule.form.doctor')"
                 :no-data-text="$t('message.no_data')"
+                :rules="checkError(props.meta)"
                 :value="props.value"
+                :search-input="props.value"
+                :filter="searchFilter"
                 v-on="props.events"
+                item-text="value"
+                item-value="key"
+                return-object
               />
             </template>
           </f-field>
         </v-flex>
         <v-flex xs16>
-          <f-field name="date" :formatter="dateFormatter">
+          <f-field
+            name="date"
+            :formatter="dateFormatter"
+            :validate="validate('error.required.date', required)"
+          >
             <template slot-scope="props">
               <app-date-picker
                 :value="props.value"
@@ -43,6 +62,7 @@
                 <v-text-field
                   :name="props.name"
                   :label="$t('page.schedule.form.date')"
+                  :rules="checkError(props.meta)"
                   :value="props.value"
                   type="text"
                   readonly
@@ -52,7 +72,11 @@
           </f-field>
         </v-flex>
         <v-flex xs16>
-          <f-field name="time" :formatter="timeFormatter">
+          <f-field
+            name="time"
+            :formatter="timeFormatter"
+            :validate="validate('error.required.time', required)"
+          >
             <template slot-scope="props">
               <app-date-picker
                 :value="props.value"
@@ -60,6 +84,7 @@
                 <v-text-field
                   :name="props.name"
                   :label="$t('page.schedule.form.time')"
+                  :rules="checkError(props.meta)"
                   :value="props.value"
                   type="text"
                   readonly
@@ -102,7 +127,10 @@ export default {
   inject: [ 'formConfig' ],
   props: {
     entity: Typed.is.obj.define,
-    form: Typed.is.obj.define
+    form: Typed.is.obj.define,
+    doctor: Typed.is.array.required.define,
+    patient: Typed.is.array.required.define,
+    opened: Typed.is.bool.required.define
   },
   data () {
     return {
@@ -116,21 +144,6 @@ export default {
       ]
     }
   },
-  computed: {
-    mask () {
-      const value = this.form.state.values.number_phone || ''
-      return value.length < 11 ? '(##) ####-#####' : '(##) #####-####'
-    }
-  },
-  watch: {
-    entity: {
-      handler: 'updateFormValue',
-      immediate: true
-    }
-  },
-  mounted () {
-    EventBus.$on('$CloseDialog', () => this.form.methods.reset())
-  },
   methods: {
     dateFormatter () {
       return (value) => value ? date(value).format() : null
@@ -138,16 +151,34 @@ export default {
     timeFormatter () {
       return (value) => value || null
     },
+
     required: (...args) => required(...args),
-    updateFormValue () {
-      this.formConfig.initialize({
-        _id: this.entity._id,
-        number_phone: this.entity.number,
-        contact_person: this.entity.contact_person,
-        contact_status: this.entity.status,
-        contact_type: this.entity.type
-      })
+
+    searchFilter (item, query = '') {
+      if (query.value) {
+        return item.value.toLowerCase().indexOf(query.value.toLowerCase()) > -1
+      }
+
+      if (Array.isArray(query)) {
+        return query.some((data) => {
+          return item.value.toLowerCase().indexOf(data.value.toLowerCase()) > -1
+        })
+      }
+
+      return item.value.toLowerCase().indexOf(query.toLowerCase()) > -1
     }
+  },
+  watch: {
+    opened (value) {
+      !value && this.form.methods.reset()
+    },
+    entity (value) {
+      this.formConfig.initialize({ ...value })
+      this.form.methods.reset()
+    }
+  },
+  mounted () {
+    EventBus.$on('$CloseDialog', () => this.form.methods.reset())
   }
 }
 </script>

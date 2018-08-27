@@ -39,7 +39,6 @@
       <kendo-scheduler-view :type="'day'" />
       <kendo-scheduler-view :type="'week'" />
       <kendo-scheduler-view :type="'month'" :selected="true" />
-      <kendo-scheduler-view :type="'agenda'" />
     </kendo-scheduler>
   </div>
 </template>
@@ -54,8 +53,8 @@ const dateHeaderTemplate = window.kendo.template(
 
 const eventTemplate = window.kendo.template([
   '<div class="k-event-area">',
-  '<div><b>Paciente:</b> #: patient #</div>',
-  '<div><b>Médico:</b> #: doctor #</div>',
+  '<div><b>Paciente:</b> #: patient_name #</div>',
+  '<div><b>Médico:</b> #: doctor_name #</div>',
   '</div>'
 ].join(''))
 
@@ -70,7 +69,8 @@ export default {
     entity: null,
     editable: {
       confirmation: false,
-      move: false
+      move: false,
+      resize: false
     },
     dateHeaderTemplate,
     eventTemplate,
@@ -116,7 +116,10 @@ export default {
   },
   watch: {
     date (value) {
-      window.kendo.jQuery(this.$el).getKendoScheduler().date(value)
+      window.kendo
+        .jQuery(this.$el.querySelector('.k-scheduler'))
+        .getKendoScheduler()
+        .date(value)
     }
   },
   mounted () {
