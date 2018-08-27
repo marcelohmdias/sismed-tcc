@@ -8,19 +8,19 @@ export default [
   {
     icon: 'account-card-details',
     name: 'Patients',
-    rule: 'public',
+    rule: 'user',
     title: 'globals.menu.patients',
     children: [
       {
         icon: 'magnify',
         name: 'ResearchPatients',
-        rule: 'public',
+        rule: 'user',
         title: 'globals.menu.research'
       },
       {
         icon: 'account-plus',
         name: 'RegisterPatients',
-        rule: 'public',
+        rule: 'user',
         title: 'globals.menu.register'
       }
     ]
@@ -28,19 +28,19 @@ export default [
   {
     icon: 'clipboard-pulse',
     name: 'Record',
-    rule: 'public',
+    rule: 'doctor',
     title: 'globals.menu.record',
     children: [
       {
         icon: 'magnify',
         name: 'ResearchRecords',
-        rule: 'public',
+        rule: 'doctor',
         title: 'globals.menu.research'
       },
       {
         icon: 'heart-pulse',
         name: 'Exams',
-        rule: 'public',
+        rule: 'user',
         title: 'globals.menu.exams'
       }
     ]
@@ -48,19 +48,19 @@ export default [
   {
     icon: 'account-group',
     name: 'Users',
-    rule: 'public',
+    rule: 'manager',
     title: 'globals.menu.users',
     children: [
       {
         icon: 'magnify',
         name: 'ResearchUsers',
-        rule: 'public',
+        rule: 'manager',
         title: 'globals.menu.research'
       },
       {
         icon: 'account-settings-variant',
         name: 'RegisterUsers',
-        rule: 'public',
+        rule: 'manager',
         title: 'globals.menu.register'
       }
     ]

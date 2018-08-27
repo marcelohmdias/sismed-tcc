@@ -16,6 +16,7 @@ export default new AclCreate({
     disconnected: new AclRule('disconnected').generate(),
     doctor: new AclRule('doctor').generate(),
     manager: new AclRule('manager').generate(),
+    user: new AclRule('attendant').or('doctor').generate(),
     public: new AclRule('attendant').or('doctor').or('manager').generate()
   }
 })

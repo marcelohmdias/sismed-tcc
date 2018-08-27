@@ -99,9 +99,7 @@ export const createUser = async ({ email, password }) => {
 
   const user = await userRef().add({
     email,
-    password,
-    'status': 1,
-    'permission_type': 1
+    password
   })
 
   return user.id
