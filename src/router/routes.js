@@ -6,17 +6,10 @@ const loadView = (path) => () => {
 }
 
 const isPublic = new AclRule('attendant').or('doctor').or('manager').generate()
-
-const home = {
-  beforeEnter,
-  component: loadView('home/Home'),
-  meta: {
-    rule: isPublic,
-    requiresAuth: true
-  },
-  name: 'Home',
-  path: '/inicio'
-}
+const isAttendantAndDoctor = new AclRule('attendant')
+  .or('doctor')
+  .or('manager')
+  .generate()
 
 const profile = {
   beforeEnter,
@@ -35,7 +28,7 @@ const schedule = {
   path: '/agenda',
   name: 'Schedule',
   meta: {
-    rule: isPublic,
+    rule: isAttendantAndDoctor,
     requiresAuth: true
   }
 }
@@ -45,7 +38,7 @@ const patients = {
   name: 'Patients',
   component: loadView('patient/Patients'),
   meta: {
-    rule: isPublic,
+    rule: isAttendantAndDoctor,
     requiresAuth: true
   },
   children: [
@@ -55,7 +48,7 @@ const patients = {
       name: 'ResearchPatients',
       component: loadView('patient/ResearchPatients'),
       meta: {
-        rule: isPublic,
+        rule: isAttendantAndDoctor,
         requiresAuth: true
       },
       props: {
@@ -76,7 +69,7 @@ const patients = {
       name: 'RegisterPatients',
       component: loadView('patient/RegisterPatients'),
       meta: {
-        rule: isPublic,
+        rule: isAttendantAndDoctor,
         requiresAuth: true
       },
       props: {
@@ -97,7 +90,7 @@ const patients = {
       name: 'EditPatients',
       component: loadView('patient/RegisterPatients'),
       meta: {
-        rule: isPublic,
+        rule: isAttendantAndDoctor,
         requiresAuth: true
       },
       props: {
@@ -120,7 +113,7 @@ const records = {
   name: 'Records',
   component: loadView('record/Records'),
   meta: {
-    rule: isPublic,
+    rule: isAttendantAndDoctor,
     requiresAuth: true
   },
   children: [
@@ -130,7 +123,7 @@ const records = {
       name: 'ResearchRecords',
       component: loadView('record/ResearchRecords'),
       meta: {
-        rule: isPublic,
+        rule: new AclRule('doctor').generate(),
         requiresAuth: true
       },
       props: {
@@ -151,7 +144,7 @@ const records = {
       name: 'RegisterRecords',
       component: loadView('record/RegisterRecords'),
       meta: {
-        rule: isPublic,
+        rule: new AclRule('doctor').generate(),
         requiresAuth: true
       },
       props: {
@@ -172,7 +165,7 @@ const records = {
       name: 'Exams',
       component: loadView('record/Exams'),
       meta: {
-        rule: isPublic,
+        rule: isAttendantAndDoctor,
         requiresAuth: true
       },
       props: {
@@ -343,7 +336,6 @@ const medical = {
 }
 
 const children = [
-  home,
   profile,
   schedule,
   patients,
@@ -374,7 +366,7 @@ export default [
     component: loadView('base/Base'),
     name: 'Base',
     path: '/',
-    redirect: '/inicio',
+    redirect: '/agenda',
     meta: {
       rule: isPublic,
       requiresAuth: true
@@ -382,6 +374,6 @@ export default [
   },
   {
     path: '*',
-    redirect: '/inicio'
+    redirect: '/agenda'
   }
 ]

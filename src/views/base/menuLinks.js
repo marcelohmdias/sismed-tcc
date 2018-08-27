@@ -1,11 +1,5 @@
 export default [
   {
-    icon: 'home',
-    name: 'Home',
-    rule: 'public',
-    title: 'globals.menu.home'
-  },
-  {
     icon: 'calendar-clock',
     name: 'Schedule',
     rule: 'public',

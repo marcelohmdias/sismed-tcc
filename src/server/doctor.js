@@ -1,5 +1,7 @@
 import { db } from '@/helpers/firebase'
 
+import { getList as search } from './schedule'
+
 const doctorsRef = () => db().collection('doctors')
 
 const parseList = list => item => {
@@ -80,7 +82,9 @@ export const saveDoctor = async (id, data) => {
 export const deleteDoctor = async (id) => {
   const data = await doctorsRef().doc(id)
 
-  // TODO: Validar se existem consultas marcadas
+  const list = await search({ doctor_id: id })
+
+  if (list.length) return new Date('have_registered_medical_consultation')
 
   const specialitiesRef = await data.collection('specialities').get()
   specialitiesRef.forEach(async (item) => {

@@ -390,6 +390,7 @@ export default {
   error: {
     register_not_found: 'Registro não encontrado.',
     has_registration: 'O Médico possui uma consulta neste horário.',
+    have_registered_medical_consultation: 'Não é possível excluir o registro no momento. O Médico possui consulta cadastrada.',
     login: {
       email_field: 'Digite um e-mail válido.',
       password_field: 'A senha deve conter no mínimo 6 caracteres.'
