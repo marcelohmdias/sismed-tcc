@@ -78,11 +78,9 @@
             </v-btn>
           </v-flex>
           <v-flex xs12 sm4 md4 lg3
-            :disabled="!disabled"
-            @click="accessRecord"
-            v-if="disabled && hasRecord"
+            v-if="disabled && hasRecord && $acl.check('doctor')"
           >
-            <v-btn color="secondary" block>
+            <v-btn color="secondary" @click="accessRecord" block>
               <app-icon name="file-document-outline" />
               <span v-t="'page.record.button.access'" />
             </v-btn>
