@@ -9,7 +9,7 @@ const { permission } = JSON.parse(window.sessionStorage.getItem('CURRENT_USER'))
 
 export default new AclCreate({
   initial: permission || 'disconnected',
-  notfound: '/inicio',
+  notfound: '/agenda',
   router,
   globalRules: {
     attendant: new AclRule('attendant').generate(),

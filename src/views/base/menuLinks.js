@@ -28,7 +28,7 @@ export default [
   {
     icon: 'clipboard-pulse',
     name: 'Record',
-    rule: 'doctor',
+    rule: 'user',
     title: 'globals.menu.record',
     children: [
       {

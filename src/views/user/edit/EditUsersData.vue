@@ -50,10 +50,12 @@ export default {
         const { _id } = state
 
         const data = {
+          full_name: state.full_name,
+          date_birth: new Date(state.date_birth),
+          sex: state.sex,
           cpf: state.cpf,
-          'date_birth': new Date(state.date_birth),
-          'full_name': state.full_name,
-          sex: state.sex
+          status: state.status,
+          permission_type: state.permission_type
         }
 
         await this.saveUser({ _id, data })

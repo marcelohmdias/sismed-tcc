@@ -5,6 +5,12 @@ const loadView = (path) => () => {
   return import(/* webpackChunkName: "view-[request]" */ `@/views/${path}.vue`)
 }
 
+const all = new AclRule('attendant')
+  .or('doctor')
+  .or('manager')
+  .or('disconnected')
+  .generate()
+
 const isPublic = new AclRule('attendant').or('doctor').or('manager').generate()
 const isAttendantAndDoctor = new AclRule('attendant')
   .or('doctor')
@@ -368,8 +374,8 @@ export default [
     path: '/',
     redirect: '/agenda',
     meta: {
-      rule: isPublic,
-      requiresAuth: true
+      rule: all,
+      requiresAuth: false
     }
   },
   {
